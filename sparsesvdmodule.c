@@ -50,7 +50,6 @@ static PyObject *sparsesvd_sparsesvd(PyObject *self, PyObject *args) {
         return NULL;
     }
     
-    
     // Retrieve matrix shape and density
     PyObject *shape = PyObject_GetAttrString(matrix, "shape");
     PyObject *rowsO = PySequence_GetItem(shape, 0);
@@ -119,9 +118,9 @@ static PyObject *sparsesvd_sparsesvd(PyObject *self, PyObject *args) {
 
 static PyMethodDef sparsesvdMethods[] = {
     {"sparsesvd", (PyCFunction)sparsesvd_sparsesvd, METH_VARARGS,
-        "sparsesvd(smat, dimensions)\nPerform partial sparse SVD of scipy.sparse.csc_matrix matrix `smat`, return ut, s, vt such that  ut.T * s * vt ~= smat."
-        "Return only `dimensions` singular triplets that correspond to the greatest singular values."
-        "\nUses LAS2 algorithm from SVDLIBC, which solves the related sparse eigenproblem of smat.T*smat or smat*smat.T, whichever is more efficient."
+        "sparsesvd(smat, dimensions)\n\nPerform partial sparse SVD of scipy.sparse.csc_matrix `smat` and return `ut`, `s`, `vt` such that `ut.T * s * vt ~= smat`."
+        " Return only `dimensions` singular triplets that correspond to the greatest singular values (i.e., not necessarily the full spectrum)."
+        "\n\nThis function uses the LAS2 algorithm from SVDLIBC, which solves the related sparse eigenproblem of `smat.T*smat` or `smat*smat.T` (whichever is more efficient)."
     },
     {NULL, NULL, 0, NULL}
 };

@@ -19,15 +19,16 @@ if sys.version_info[:2] < (2, 5):
 import ez_setup
 ez_setup.use_setuptools()
 
-from setuptools import setup, Extension, find_packages
+from setuptools import setup, Extension
 
 from numpy.distutils.misc_util import get_numpy_include_dirs
+
+
 
 module = Extension('sparsesvd',
                     extra_compile_args=['-std=c99'],
                     include_dirs=get_numpy_include_dirs(),
                     sources = ['sparsesvdmodule.c', 'SVDLIBC/las2.c', 'SVDLIBC/svdlib.c', 'SVDLIBC/svdutil.c'])
-
 
 
 def read(fname):
@@ -40,13 +41,10 @@ long_desc = read('README.txt')
 
 setup(
     name = 'sparsesvd',
-    version = '0.1.0',
+    version = '0.1.2',
     description = 'Python module that wraps SVDLIBC, a library for sparse Singular Value Decomposition.',
     long_description = long_desc,
     
-#    package_dir = {'': 'src'},
-#    packages = find_packages('src'),
-
     # there is a bug in python2.5, preventing distutils from using any non-ascii characters :( http://bugs.python.org/issue2562
     author = 'Radim Rehurek', # u'Radim Řehůřek', # <- should really be this...
     author_email = 'radimrehurek@seznam.cz',
@@ -60,6 +58,7 @@ setup(
         'Intended Audience :: Science/Research',
         'Operating System :: OS Independent',
         'Programming Language :: Python :: 2.5',
+        'Topic :: Scientific/Engineering :: Mathematics',
         'Topic :: Scientific/Engineering :: Artificial Intelligence',
         'Topic :: Scientific/Engineering :: Information Analysis',
         'Topic :: Text Processing :: Linguistic',
