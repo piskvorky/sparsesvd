@@ -94,20 +94,20 @@ DMat svdTransposeD(DMat D);
 /* Transposes a sparse matrix (returning a new one) */
 SMat svdTransposeS(SMat S);
 
-/* Writes an array to a file. */
-extern void svdWriteDenseArray(double *a, int n, char *filename, char binary);
-/* Reads an array from a file, storing its size in *np. */
-extern double *svdLoadDenseArray(char *filename, int *np, char binary);
-
-/* Loads a matrix file (in various formats) into a sparse matrix. */
-extern SMat svdLoadSparseMatrix(char *filename, int format);
-/* Loads a matrix file (in various formats) into a dense matrix. */
-extern DMat svdLoadDenseMatrix(char *filename, int format);
-
-/* Writes a dense matrix to a file in a given format. */
-extern void svdWriteDenseMatrix(DMat A, char *filename, int format);
-/* Writes a sparse matrix to a file in a given format. */
-extern void svdWriteSparseMatrix(SMat A, char *filename, int format);
+///* Writes an array to a file. */
+//extern void svdWriteDenseArray(double *a, int n, char *filename, char binary);
+///* Reads an array from a file, storing its size in *np. */
+//extern double *svdLoadDenseArray(char *filename, int *np, char binary);
+//
+///* Loads a matrix file (in various formats) into a sparse matrix. */
+//extern SMat svdLoadSparseMatrix(char *filename, int format);
+///* Loads a matrix file (in various formats) into a dense matrix. */
+//extern DMat svdLoadDenseMatrix(char *filename, int format);
+//
+///* Writes a dense matrix to a file in a given format. */
+//extern void svdWriteDenseMatrix(DMat A, char *filename, int format);
+///* Writes a sparse matrix to a file in a given format. */
+//extern void svdWriteSparseMatrix(SMat A, char *filename, int format);
 
 
 /* Performs the las2 SVD algorithm and returns the resulting Ut, S, and Vt. */

@@ -8,10 +8,10 @@
                         University of Tennessee
                           All Rights Reserved                          
  *************************************************************************/
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
+#include <stdio.h>
 #include <math.h>
 #include <fcntl.h>
 #include "svdlib.h"
@@ -434,16 +434,16 @@ SVDRec svdLAS2(SMat A, long dimensions, long iterations, double end[2],
                 neig);
   
   if (SVDVerbosity > 1) {
-    printf("\nSINGULAR VALUES: ");
-    svdWriteDenseArray(R->S, R->d, "-", FALSE);
-
-    if (SVDVerbosity > 2) {
-      printf("\nLEFT SINGULAR VECTORS (transpose of U): ");
-      svdWriteDenseMatrix(R->Ut, "-", SVD_F_DT);
-
-      printf("\nRIGHT SINGULAR VECTORS (transpose of V): ");
-      svdWriteDenseMatrix(R->Vt, "-", SVD_F_DT);
-    }
+//    printf("\nSINGULAR VALUES: ");
+//    svdWriteDenseArray(R->S, R->d, "-", FALSE);
+//
+//    if (SVDVerbosity > 2) {
+//      printf("\nLEFT SINGULAR VECTORS (transpose of U): ");
+//      svdWriteDenseMatrix(R->Ut, "-", SVD_F_DT);
+//
+//      printf("\nRIGHT SINGULAR VECTORS (transpose of V): ");
+//      svdWriteDenseMatrix(R->Vt, "-", SVD_F_DT);
+//    }
   } else if (SVDVerbosity > 0)
     printf("SINGULAR VALUES FOUND     = %6d\n", R->d);
 

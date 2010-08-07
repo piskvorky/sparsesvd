@@ -12,9 +12,8 @@ made by the Python wrapper.
 Installation
 ------------
 
-You'll need NumPy and Scipy, two Python packages for scientific computing.
-You need to have them installed prior to installing sparsesvd; if you don't have them yet, 
-you can get them from <http://www.scipy.org/Download>.
+In order to install sparsesvd, you'll need NumPy and Scipy, two Python packages for scientific computing.
+You can get them from <http://www.scipy.org/Download>.
 
 The simple way to install `sparsesvd` is::
 
@@ -37,8 +36,9 @@ of requested factors (an integer).
 
 >>> import numpy, scipy.sparse
 >>> from sparsesvd import sparsesvd
->>> mat = numpy.random.rand(200, 100)
->>> ut, s, vt = sparsesvd(scipy.sparse.csc_matrix(mat), 100)
+>>> mat = numpy.random.rand(200, 100) # create a random matrix
+>>> smat = scipy.sparse.csc_matrix(mat) # convert to sparse csc format
+>>> ut, s, vt = sparsesvd(smat, 100) # do SVD, asking for 100 factors
 >>> assert numpy.allclose(mat, numpy.dot(ut.T, numpy.dot(numpy.diag(s), vt)))
 
 

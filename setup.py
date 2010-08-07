@@ -26,8 +26,8 @@ from numpy.distutils.misc_util import get_numpy_include_dirs
 
 
 module = Extension('sparsesvd',
-                    extra_compile_args=['-std=c99'],
-                    include_dirs=get_numpy_include_dirs(),
+                    extra_compile_args = ['-std=c99'],
+                    include_dirs = get_numpy_include_dirs(),
                     sources = ['sparsesvdmodule.c', 'SVDLIBC/las2.c', 'SVDLIBC/svdlib.c', 'SVDLIBC/svdutil.c'])
 
 
@@ -41,7 +41,7 @@ long_desc = read('README.txt')
 
 setup(
     name = 'sparsesvd',
-    version = '0.1.2',
+    version = '0.1.3',
     description = 'Python module that wraps SVDLIBC, a library for sparse Singular Value Decomposition.',
     long_description = long_desc,
     

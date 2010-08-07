@@ -13,7 +13,7 @@ static PyArrayObject *createPyArray2d(double* data, int rows, long cols)  {
 
     /* HACK: setting OWN_DATA flag will cause correct deallocation during pyArray 
      * object's destruction. *But* for this to work, the array must be allocated
-     * with the same allocator as that in NumPy, so that allocation/deallocator matches.
+     * with the same allocator as that in NumPy, so that allocator/deallocator matches.
      * 
      * Currently both NumPy and SVDLIBC use malloc, so it's ok. */
     pyArray->flags |= NPY_OWNDATA;
@@ -41,7 +41,7 @@ static PyObject *sparsesvd_sparsesvd(PyObject *self, PyObject *args) {
     }
 
     
-    /* Create matrix representatiob for SVDLIBC; use array references wherever 
+    /* Create matrix representation for SVDLIBC; use array references wherever 
      * possible and copy arrays when not possible (input matrix not in doubles, etc.)
      */
     SMat m = (SMat) malloc(sizeof(struct smat));
@@ -103,7 +103,7 @@ static PyObject *sparsesvd_sparsesvd(PyObject *self, PyObject *args) {
     PyArrayObject* s = createPyArray1d(svdResult->S, svdResult->d);
     
     /* Memory deallocation handled by the returned arrays; the svdResult->Ut->value[0], 
-     * svdResult->Vt->value[0] and svdResult->S change ownership to ut, vt and s
+     * svdResult->Vt->value[0] and svdResult->S arrays change ownership to ut, vt and s
      */
     free(svdResult->Ut->value);
     free(svdResult->Ut);
@@ -118,7 +118,8 @@ static PyObject *sparsesvd_sparsesvd(PyObject *self, PyObject *args) {
 
 static PyMethodDef sparsesvdMethods[] = {
     {"sparsesvd", (PyCFunction)sparsesvd_sparsesvd, METH_VARARGS,
-        "sparsesvd(smat, dimensions)\n\nPerform partial sparse SVD of scipy.sparse.csc_matrix `smat` and return `ut`, `s`, `vt` such that `ut.T * s * vt ~= smat`."
+        "sparsesvd(smat, dimensions)"
+        "\n\nPerform partial sparse SVD of scipy.sparse.csc_matrix `smat` and return `ut`, `s`, `vt` such that `ut.T * s * vt ~= smat`."
         " Return only `dimensions` singular triplets that correspond to the greatest singular values (i.e., not necessarily the full spectrum)."
         "\n\nThis function uses the LAS2 algorithm from SVDLIBC, which solves the related sparse eigenproblem of `smat.T*smat` or `smat*smat.T` (whichever is more efficient)."
     },

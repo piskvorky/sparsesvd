@@ -1,25 +1,25 @@
-#include <stdio.h>
 #include <stdlib.h>
-#include <stdarg.h>
 #include <string.h>
-#include <errno.h>
 #include <math.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <netinet/in.h>
+#include <stdio.h>
+#include <errno.h>
+#include <stdarg.h>
+//#include <sys/types.h>
+//#include <sys/stat.h>
+//#include <netinet/in.h>
 #include "svdlib.h"
 #include "svdutil.h"
 
-#define BUNZIP2  "bzip2 -d"
-#define BZIP2    "bzip2 -1"
-#define UNZIP    "gzip -d"
-#define ZIP      "gzip -1"
-#define COMPRESS "compress"
-
-#define MAX_FILENAME 512
-#define MAX_PIPES    64
-static FILE *Pipe[MAX_PIPES];
-static int numPipes = 0;
+//#define BUNZIP2  "bzip2 -d"
+//#define BZIP2    "bzip2 -1"
+//#define UNZIP    "gzip -d"
+//#define ZIP      "gzip -1"
+//#define COMPRESS "compress"
+//
+//#define MAX_FILENAME 512
+//#define MAX_PIPES    64
+//static FILE *Pipe[MAX_PIPES];
+//static int numPipes = 0;
 
 long *svd_longArray(long size, char empty, char *name) {
   long *a;
@@ -76,164 +76,164 @@ void svd_fatalError(char *fmt, ...) {
   exit(1);
 }
 
-static void registerPipe(FILE *p) {
-  if (numPipes >= MAX_PIPES) svd_error("Too many pipes open");
-  Pipe[numPipes++] = p;
-}
-
-static char isPipe(FILE *p) {
-  int i;
-  for (i = 0; i < numPipes && Pipe[i] != p; i++);
-  if (i == numPipes) return FALSE;
-  Pipe[i] = Pipe[--numPipes];
-  return TRUE;
-}
-
-static FILE *openPipe(char *pipeName, char *mode) {
-  FILE *pipe;
-  fflush(stdout);
-  if ((pipe = popen(pipeName, mode))) registerPipe(pipe);
-  return pipe;
-}
-
-static FILE *readZippedFile(char *command, char *fileName) {
-  char buf[MAX_FILENAME];
-  sprintf(buf, "%s < %s 2>/dev/null", command, fileName);
-  return openPipe(buf, "r");
-}
-
-FILE *svd_fatalReadFile(char *filename) {
-  FILE *file;
-  if (!(file = svd_readFile(filename)))
-    svd_fatalError("couldn't read the file %s", filename);
-  return file;
-}
-
-static int stringEndsIn(char *s, char *t) {
-  int ls = strlen(s);
-  int lt = strlen(t);
-  if (ls < lt) return FALSE;
-  return (strcmp(s + ls - lt, t)) ? FALSE : TRUE;
-}
-
-/* Will silently return NULL if file couldn't be opened */
-FILE *svd_readFile(char *fileName) {
-  char fileBuf[MAX_FILENAME];
-  struct stat statbuf;
-
-  /* Special file name */
-  if (!strcmp(fileName, "-"))
-    return stdin;
-  
-  /* If it is a pipe */
-  if (fileName[0] == '|')
-    return openPipe(fileName + 1, "r");
-
-  /* Check if already ends in .gz or .Z and assume compressed */
-  if (stringEndsIn(fileName, ".gz") || stringEndsIn(fileName, ".Z")) {
-    if (!stat(fileName, &statbuf))
-      return readZippedFile(UNZIP, fileName);
-    return NULL;
-  }
-  /* Check if already ends in .bz or .bz2 and assume compressed */
-  if (stringEndsIn(fileName, ".bz") || stringEndsIn(fileName, ".bz2")) {
-    if (!stat(fileName, &statbuf))
-      return readZippedFile(BUNZIP2, fileName);
-    return NULL;
-  }
-  /* Try just opening normally */
-  if (!stat(fileName, &statbuf))
-    return fopen(fileName, "r");
-  /* Try adding .gz */
-  sprintf(fileBuf, "%s.gz", fileName);
-  if (!stat(fileBuf, &statbuf))
-    return readZippedFile(UNZIP, fileBuf);
-  /* Try adding .Z */
-  sprintf(fileBuf, "%s.Z", fileName);
-  if (!stat(fileBuf, &statbuf))
-    return readZippedFile(UNZIP, fileBuf);
-  /* Try adding .bz2 */
-  sprintf(fileBuf, "%s.bz2", fileName);
-  if (!stat(fileBuf, &statbuf))
-    return readZippedFile(BUNZIP2, fileBuf);
-  /* Try adding .bz */
-  sprintf(fileBuf, "%s.bz", fileName);
-  if (!stat(fileBuf, &statbuf))
-    return readZippedFile(BUNZIP2, fileBuf);
-
-  return NULL;
-}
-
-static FILE *writeZippedFile(char *fileName, char append) {
-  char buf[MAX_FILENAME];
-  const char *op = (append) ? ">>" : ">";
-  if (stringEndsIn(fileName, ".bz2") || stringEndsIn(fileName, ".bz"))
-    sprintf(buf, "%s %s \"%s\"", BZIP2, op, fileName);
-  else if (stringEndsIn(fileName, ".Z"))
-    sprintf(buf, "%s %s \"%s\"", COMPRESS, op, fileName);
-  else
-    sprintf(buf, "%s %s \"%s\"", ZIP, op, fileName);
-  return openPipe(buf, "w");
-}
-
-FILE *svd_writeFile(char *fileName, char append) {
-  /* Special file name */
-  if (!strcmp(fileName, "-"))
-    return stdout;
-  
-  /* If it is a pipe */
-  if (fileName[0] == '|')
-    return openPipe(fileName + 1, "w");
-
-  /* Check if ends in .gz, .Z, .bz, .bz2 */
-  if (stringEndsIn(fileName, ".gz") || stringEndsIn(fileName, ".Z") ||
-      stringEndsIn(fileName, ".bz") || stringEndsIn(fileName, ".bz2"))
-    return writeZippedFile(fileName, append);
-  return (append) ? fopen(fileName, "a") : fopen(fileName, "w");
-}
-
-/* Could be a file or a stream. */
-void svd_closeFile(FILE *file) {
-  if (file == stdin || file == stdout) return;
-  if (isPipe(file)) pclose(file);
-  else fclose(file);
-}
-
-
-char svd_readBinInt(FILE *file, int *val) {
-  int x;
-  if (fread(&x, sizeof(int), 1, file) == 1) {
-    *val = ntohl(x);
-    return FALSE;
-  }
-  return TRUE;
-}
-
-/* This reads a float in network order and converts to a real in host order. */
-char svd_readBinFloat(FILE *file, float *val) {
-  int x;
-  float y;
-  if (fread(&x, sizeof(int), 1, file) == 1) {
-    x = ntohl(x);
-    y = *((float *) &x);
-    *val = y;
-    return FALSE;
-  }
-  return TRUE;
-}
-
-char svd_writeBinInt(FILE *file, int x) {
-  int y = htonl(x);
-  if (fwrite(&y, sizeof(int), 1, file) != 1) return TRUE;
-  return FALSE;
-}
-
-/* This takes a real in host order and writes a float in network order. */
-char svd_writeBinFloat(FILE *file, float r) {
-  int y = htonl(*((int *) &r));
-  if (fwrite(&y, sizeof(int), 1, file) != 1) return TRUE;
-  return FALSE;
-}
+//static void registerPipe(FILE *p) {
+//  if (numPipes >= MAX_PIPES) svd_error("Too many pipes open");
+//  Pipe[numPipes++] = p;
+//}
+//
+//static char isPipe(FILE *p) {
+//  int i;
+//  for (i = 0; i < numPipes && Pipe[i] != p; i++);
+//  if (i == numPipes) return FALSE;
+//  Pipe[i] = Pipe[--numPipes];
+//  return TRUE;
+//}
+//
+//static FILE *openPipe(char *pipeName, char *mode) {
+//  FILE *pipe;
+//  fflush(stdout);
+//  if ((pipe = popen(pipeName, mode))) registerPipe(pipe);
+//  return pipe;
+//}
+//
+//static FILE *readZippedFile(char *command, char *fileName) {
+//  char buf[MAX_FILENAME];
+//  sprintf(buf, "%s < %s 2>/dev/null", command, fileName);
+//  return openPipe(buf, "r");
+//}
+//
+//FILE *svd_fatalReadFile(char *filename) {
+//  FILE *file;
+//  if (!(file = svd_readFile(filename)))
+//    svd_fatalError("couldn't read the file %s", filename);
+//  return file;
+//}
+//
+//static int stringEndsIn(char *s, char *t) {
+//  int ls = strlen(s);
+//  int lt = strlen(t);
+//  if (ls < lt) return FALSE;
+//  return (strcmp(s + ls - lt, t)) ? FALSE : TRUE;
+//}
+//
+///* Will silently return NULL if file couldn't be opened */
+//FILE *svd_readFile(char *fileName) {
+//  char fileBuf[MAX_FILENAME];
+//  struct stat statbuf;
+//
+//  /* Special file name */
+//  if (!strcmp(fileName, "-"))
+//    return stdin;
+//  
+//  /* If it is a pipe */
+//  if (fileName[0] == '|')
+//    return openPipe(fileName + 1, "r");
+//
+//  /* Check if already ends in .gz or .Z and assume compressed */
+//  if (stringEndsIn(fileName, ".gz") || stringEndsIn(fileName, ".Z")) {
+//    if (!stat(fileName, &statbuf))
+//      return readZippedFile(UNZIP, fileName);
+//    return NULL;
+//  }
+//  /* Check if already ends in .bz or .bz2 and assume compressed */
+//  if (stringEndsIn(fileName, ".bz") || stringEndsIn(fileName, ".bz2")) {
+//    if (!stat(fileName, &statbuf))
+//      return readZippedFile(BUNZIP2, fileName);
+//    return NULL;
+//  }
+//  /* Try just opening normally */
+//  if (!stat(fileName, &statbuf))
+//    return fopen(fileName, "r");
+//  /* Try adding .gz */
+//  sprintf(fileBuf, "%s.gz", fileName);
+//  if (!stat(fileBuf, &statbuf))
+//    return readZippedFile(UNZIP, fileBuf);
+//  /* Try adding .Z */
+//  sprintf(fileBuf, "%s.Z", fileName);
+//  if (!stat(fileBuf, &statbuf))
+//    return readZippedFile(UNZIP, fileBuf);
+//  /* Try adding .bz2 */
+//  sprintf(fileBuf, "%s.bz2", fileName);
+//  if (!stat(fileBuf, &statbuf))
+//    return readZippedFile(BUNZIP2, fileBuf);
+//  /* Try adding .bz */
+//  sprintf(fileBuf, "%s.bz", fileName);
+//  if (!stat(fileBuf, &statbuf))
+//    return readZippedFile(BUNZIP2, fileBuf);
+//
+//  return NULL;
+//}
+//
+//static FILE *writeZippedFile(char *fileName, char append) {
+//  char buf[MAX_FILENAME];
+//  const char *op = (append) ? ">>" : ">";
+//  if (stringEndsIn(fileName, ".bz2") || stringEndsIn(fileName, ".bz"))
+//    sprintf(buf, "%s %s \"%s\"", BZIP2, op, fileName);
+//  else if (stringEndsIn(fileName, ".Z"))
+//    sprintf(buf, "%s %s \"%s\"", COMPRESS, op, fileName);
+//  else
+//    sprintf(buf, "%s %s \"%s\"", ZIP, op, fileName);
+//  return openPipe(buf, "w");
+//}
+//
+//FILE *svd_writeFile(char *fileName, char append) {
+//  /* Special file name */
+//  if (!strcmp(fileName, "-"))
+//    return stdout;
+//  
+//  /* If it is a pipe */
+//  if (fileName[0] == '|')
+//    return openPipe(fileName + 1, "w");
+//
+//  /* Check if ends in .gz, .Z, .bz, .bz2 */
+//  if (stringEndsIn(fileName, ".gz") || stringEndsIn(fileName, ".Z") ||
+//      stringEndsIn(fileName, ".bz") || stringEndsIn(fileName, ".bz2"))
+//    return writeZippedFile(fileName, append);
+//  return (append) ? fopen(fileName, "a") : fopen(fileName, "w");
+//}
+//
+///* Could be a file or a stream. */
+//void svd_closeFile(FILE *file) {
+//  if (file == stdin || file == stdout) return;
+//  if (isPipe(file)) pclose(file);
+//  else fclose(file);
+//}
+//
+//
+//char svd_readBinInt(FILE *file, int *val) {
+//  int x;
+//  if (fread(&x, sizeof(int), 1, file) == 1) {
+//    *val = ntohl(x);
+//    return FALSE;
+//  }
+//  return TRUE;
+//}
+//
+///* This reads a float in network order and converts to a real in host order. */
+//char svd_readBinFloat(FILE *file, float *val) {
+//  int x;
+//  float y;
+//  if (fread(&x, sizeof(int), 1, file) == 1) {
+//    x = ntohl(x);
+//    y = *((float *) &x);
+//    *val = y;
+//    return FALSE;
+//  }
+//  return TRUE;
+//}
+//
+//char svd_writeBinInt(FILE *file, int x) {
+//  int y = htonl(x);
+//  if (fwrite(&y, sizeof(int), 1, file) != 1) return TRUE;
+//  return FALSE;
+//}
+//
+///* This takes a real in host order and writes a float in network order. */
+//char svd_writeBinFloat(FILE *file, float r) {
+//  int y = htonl(*((int *) &r));
+//  if (fwrite(&y, sizeof(int), 1, file) != 1) return TRUE;
+//  return FALSE;
+//}
 
 
 /************************************************************** 
