@@ -41,7 +41,7 @@ long_desc = read('README.txt')
 
 setup(
     name = 'sparsesvd',
-    version = '0.1.3',
+    version = '0.1.4',
     description = 'Python module that wraps SVDLIBC, a library for sparse Singular Value Decomposition.',
     long_description = long_desc,
     

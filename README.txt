@@ -25,7 +25,7 @@ you'll need to run::
     python setup.py test
     sudo python setup.py install
 
-This version has been tested under Python 2.5, but should run on any 2.5 <= Python < 3.0.
+This version has been tested under Python 2.5 and 2.6, but should run on any 2.5 <= Python < 3.0.
 
 Documentation
 --------------

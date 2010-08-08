@@ -1,0 +1,5 @@
+0.1.3
+======
+
+* removed (commted out) all code paths that performed any I/O
+* removed unneeded *.h headers, improving portability (mainly for Windows compilation)
