@@ -1,5 +1,11 @@
-0.1.3
-======
+Changes
+=======
 
-* removed (commted out) all code paths that performed any I/O
+0.1.4
+
+* minor edits in docstrings and setup.py
+
+0.1.3
+
+* removed (commented out) all code paths that performed any I/O
 * removed unneeded *.h headers, improving portability (mainly for Windows compilation)

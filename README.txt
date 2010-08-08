@@ -2,8 +2,8 @@
 sparsesvd -- Sparse Singular Value Decomposition
 =================================================
 
-**sparsesvd** is a Python wrapper around `SVDLIBC <http://tedlab.mit.edu/~dr/SVDLIBC/>`_ 
-library by Doug Rohde, which is itself based on `SVDPACKC <http://www.netlib.org/svdpack/>`_ by Michael Berry.
+**sparsesvd** is a Python wrapper around the `SVDLIBC <http://tedlab.mit.edu/~dr/SVDLIBC/>`_ 
+library by Doug Rohde, which is itself based on Michael Berry's `SVDPACK <http://www.netlib.org/svdpack/>`_.
 
 sparsesvd uses SciPy's sparse CSC (Compressed Sparse Column) matrix format as input to SVD.
 This is the same format used internally by SVDLIBC, so that no extra data copies need to be
@@ -37,7 +37,7 @@ of requested factors (an integer).
 >>> import numpy, scipy.sparse
 >>> from sparsesvd import sparsesvd
 >>> mat = numpy.random.rand(200, 100) # create a random matrix
->>> smat = scipy.sparse.csc_matrix(mat) # convert to sparse csc format
+>>> smat = scipy.sparse.csc_matrix(mat) # convert to sparse CSC format
 >>> ut, s, vt = sparsesvd(smat, 100) # do SVD, asking for 100 factors
 >>> assert numpy.allclose(mat, numpy.dot(ut.T, numpy.dot(numpy.diag(s), vt)))
 

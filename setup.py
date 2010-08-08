@@ -44,13 +44,14 @@ setup(
     version = '0.1.4',
     description = 'Python module that wraps SVDLIBC, a library for sparse Singular Value Decomposition.',
     long_description = long_desc,
-    
+    keywords = 'Singular Value Decomposition, SVD, sparse SVD',
     # there is a bug in python2.5, preventing distutils from using any non-ascii characters :( http://bugs.python.org/issue2562
     author = 'Radim Rehurek', # u'Radim Řehůřek', # <- should really be this...
     author_email = 'radimrehurek@seznam.cz',
     url = 'http://pypi.python.org/pypi/sparsesvd',
     download_url = 'http://pypi.python.org/pypi/sparsesvd',
     zip_safe = False,
+    platforms = 'any',
     
     classifiers = [ # from http://pypi.python.org/pypi?%3Aaction=list_classifiers
         'Development Status :: 4 - Beta',
