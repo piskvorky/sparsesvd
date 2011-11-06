@@ -329,6 +329,7 @@ SVDRec svdLAS2(SMat A, long dimensions, long iterations, double end[2],
   long ibeta, it, irnd, machep, negep, n, i, steps, nsig, neig, m;
   double *wptr[10], *ritz, *bnd;
   SVDRec R = NULL;
+  ierr = 0; // reset the global error flag
   
   svdResetCounters();
 
@@ -432,7 +433,8 @@ SVDRec svdLAS2(SMat A, long dimensions, long iterations, double end[2],
 
   nsig = ritvec(n, A, R, kappa, ritz, bnd, wptr[6], wptr[9], wptr[5], steps, 
                 neig);
-  
+  if(!nsig) {
+  }
   if (SVDVerbosity > 1) {
 //    printf("\nSINGULAR VALUES: ");
 //    svdWriteDenseArray(R->S, R->d, "-", FALSE);
@@ -444,6 +446,7 @@ SVDRec svdLAS2(SMat A, long dimensions, long iterations, double end[2],
 //      printf("\nRIGHT SINGULAR VECTORS (transpose of V): ");
 //      svdWriteDenseMatrix(R->Vt, "-", SVD_F_DT);
 //    }
+    printf("SINGULAR VALUES FOUND     = %6d; nsig=%ld\n", R->d, nsig);
   } else if (SVDVerbosity > 0)
     printf("SINGULAR VALUES FOUND     = %6d\n", R->d);
 
@@ -569,68 +572,70 @@ long ritvec(long n, SMat A, SVDRec R, double kappa, double *ritz, double *bnd,
   /* on return from imtql2(), w1 contains eigenvalues in ascending 
    * order and s contains the corresponding eigenvectors */
   imtql2(js, js, w1, w2, s);
-  if (ierr) return 0;
   
   /*fwrite((char *)&n, sizeof(n), 1, fp_out2);
     fwrite((char *)&js, sizeof(js), 1, fp_out2);
     fwrite((char *)&kappa, sizeof(kappa), 1, fp_out2);*/
   /*id = 0;*/
   nsig = 0;
-  x = 0;
-  id2 = jsq - js;
-  for (k = 0; k < js; k++) {
-    tmp = id2;
-    if (bnd[k] <= kappa * fabs(ritz[k]) && k > js-neig-1) {
-      if (--x < 0) x = R->d - 1;
-      w1 = R->Vt->value[x];
-      for (i = 0; i < n; i++) w1[i] = 0.0;
-      for (i = 0; i < js; i++) {
-        store(n, RETRQ, i, w2);
-        svd_daxpy(n, s[tmp], w2, 1, w1, 1);
-        tmp -= js;
-      }
-      /*fwrite((char *)w1, size, 1, fp_out2);*/
-      
-      /* store the w1 vector row-wise in array xv1;   
-       * size of xv1 is (steps+1) * (nrow+ncol) elements 
-       * and each vector, even though only ncol long,
-       * will have (nrow+ncol) elements in xv1.      
-       * It is as if xv1 is a 2-d array (steps+1) by     
-       * (nrow+ncol) and each vector occupies a row  */
-
-      /* j is the index in the R arrays, which are sorted by high to low 
-         singular values. */
-        
-      /*for (i = 0; i < n; i++) R->Vt->value[x]xv1[id++] = w1[i];*/
-      /*id += nrow;*/
-      nsig++;
-    }
-    id2++;
+  if (ierr) {
+	  R->d = 0;
+  } else {
+	  x = 0;
+	  id2 = jsq - js;
+	  for (k = 0; k < js; k++) {
+	    tmp = id2;
+	    if (bnd[k] <= kappa * fabs(ritz[k]) && k > js-neig-1) {
+	      if (--x < 0) x = R->d - 1;
+	      w1 = R->Vt->value[x];
+	      for (i = 0; i < n; i++) w1[i] = 0.0;
+	      for (i = 0; i < js; i++) {
+	        store(n, RETRQ, i, w2);
+	        svd_daxpy(n, s[tmp], w2, 1, w1, 1);
+	        tmp -= js;
+	      }
+	      /*fwrite((char *)w1, size, 1, fp_out2);*/
+	      
+	      /* store the w1 vector row-wise in array xv1;   
+	       * size of xv1 is (steps+1) * (nrow+ncol) elements 
+	       * and each vector, even though only ncol long,
+	       * will have (nrow+ncol) elements in xv1.      
+	       * It is as if xv1 is a 2-d array (steps+1) by     
+	       * (nrow+ncol) and each vector occupies a row  */
+	
+	      /* j is the index in the R arrays, which are sorted by high to low 
+	         singular values. */
+	        
+	      /*for (i = 0; i < n; i++) R->Vt->value[x]xv1[id++] = w1[i];*/
+	      /*id += nrow;*/
+	      nsig++;
+	    }
+	    id2++;
+	  }
+	
+	  /* Rotate the singular vectors and values. */
+	  /* x is now the location of the highest singular value. */
+	  rotateArray(R->Vt->value[0], R->Vt->rows * R->Vt->cols, 
+	              x * R->Vt->cols);
+	  R->d = svd_imin(R->d, nsig);
+	  for (x = 0; x < R->d; x++) {
+	    /* multiply by matrix B first */
+	    svd_opb(A, R->Vt->value[x], xv2, OPBTemp);
+	    tmp0 = svd_ddot(n, R->Vt->value[x], 1, xv2, 1);
+	    svd_daxpy(n, -tmp0, R->Vt->value[x], 1, xv2, 1);
+	    tmp0 = sqrt(tmp0);
+	    xnorm = sqrt(svd_ddot(n, xv2, 1, xv2, 1));
+	      
+	    /* multiply by matrix A to get (scaled) left s-vector */
+	    svd_opa(A, R->Vt->value[x], R->Ut->value[x]);
+	    tmp1 = 1.0 / tmp0;
+	    svd_dscal(A->rows, tmp1, R->Ut->value[x], 1);
+	    xnorm *= tmp1;
+	    bnd[i] = xnorm;
+	    R->S[x] = tmp0;
+	  }
   }
   SAFE_FREE(s);
-
-  /* Rotate the singular vectors and values. */
-  /* x is now the location of the highest singular value. */
-  rotateArray(R->Vt->value[0], R->Vt->rows * R->Vt->cols, 
-              x * R->Vt->cols);
-  R->d = svd_imin(R->d, nsig);
-  for (x = 0; x < R->d; x++) {
-    /* multiply by matrix B first */
-    svd_opb(A, R->Vt->value[x], xv2, OPBTemp);
-    tmp0 = svd_ddot(n, R->Vt->value[x], 1, xv2, 1);
-    svd_daxpy(n, -tmp0, R->Vt->value[x], 1, xv2, 1);
-    tmp0 = sqrt(tmp0);
-    xnorm = sqrt(svd_ddot(n, xv2, 1, xv2, 1));
-      
-    /* multiply by matrix A to get (scaled) left s-vector */
-    svd_opa(A, R->Vt->value[x], R->Ut->value[x]);
-    tmp1 = 1.0 / tmp0;
-    svd_dscal(A->rows, tmp1, R->Ut->value[x], 1);
-    xnorm *= tmp1;
-    bnd[i] = xnorm;
-    R->S[x] = tmp0;
-  }
-
   SAFE_FREE(xv2);
   return nsig;
 }

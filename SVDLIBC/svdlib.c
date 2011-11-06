@@ -3,8 +3,8 @@
 #include "svdlib.h"
 #include "svdutil.h"
 
-char *SVDVersion = "1.34";
-long SVDVerbosity = 0;
+char *SVDVersion = "1.35";
+long SVDVerbosity = 0; // 0 to suppress all fprinting
 long SVDCount[SVD_COUNTERS];
 
 void svdResetCounters(void) {
