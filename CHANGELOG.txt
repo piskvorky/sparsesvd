@@ -4,6 +4,7 @@ Changes
 0.1.6
 
 * added a license: Free BSD
+* moved hosting to github
 
 0.1.5
 
