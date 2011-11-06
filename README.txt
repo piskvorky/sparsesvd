@@ -2,24 +2,24 @@
 sparsesvd -- Sparse Singular Value Decomposition
 =================================================
 
-**sparsesvd** is a Python wrapper around the `SVDLIBC <http://tedlab.mit.edu/~dr/SVDLIBC/>`_ 
+**sparsesvd** is a Python wrapper around the `SVDLIBC <http://tedlab.mit.edu/~dr/SVDLIBC/>`_
 library by Doug Rohde, which is itself based on Michael Berry's `SVDPACK <http://www.netlib.org/svdpack/>`_.
 
 sparsesvd uses SciPy's sparse CSC (Compressed Sparse Column) matrix format as input to SVD.
 This is the same format used internally by SVDLIBC, so that no extra data copies need to be
-made by the Python wrapper. 
+made by the Python wrapper (memory-efficient).
 
 Installation
 ------------
 
-In order to install sparsesvd, you'll need NumPy and Scipy, two Python packages for scientific computing.
-You can get them from <http://www.scipy.org/Download>.
+In order to install `sparsesvd`, you'll need NumPy and Scipy, two Python packages for scientific computing.
+You can get them from `<http://www.scipy.org/Download>`_.
 
 The simple way to install `sparsesvd` is::
 
-    sudo easy_install sparsesvd
+    sudo easy_install -U sparsesvd
 
-Or, if you have instead downloaded and unzipped the `source tar.gz <http://pypi.python.org/pypi/sparsesvd>`_ package, 
+Or, if you have instead downloaded and unzipped the `source tar.gz <http://pypi.python.org/pypi/sparsesvd>`_ package,
 you'll need to run::
 
     python setup.py test
@@ -44,4 +44,6 @@ of requested factors (an integer).
 
 -------
 
-Original wrapper by Lubos Kardos, package maintained by Radim Rehurek.
+Original wrapper by Lubos Kardos, package updated and maintained by Radim Rehurek. For an application of sparse SVD to Latent Semantic Analysis, see the `gensim <http://pypi.python.org/pypi/gensim>`_ package.
+
+You can use this code under the `simplified BSD license <http://www.opensource.org/licenses/bsd-license.php>`_.

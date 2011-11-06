@@ -1,6 +1,18 @@
 Changes
 =======
 
+0.1.6
+
+* added a license: Free BSD
+
+0.1.5
+
+* fixed a bug deep inside SVDLIBC, where a global error flag was not being reset
+  before: zero input matrix=>global error flag set + memory leak + all subsequent calls to sparsesvd() terminate early
+  now: the error flag is reset before each call; zero input matrix correctly returns zero factors
+
+  thanks to Peter Prettenhofer for reporting the bug
+
 0.1.4
 
 * minor edits in docstrings and setup.py
