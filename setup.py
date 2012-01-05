@@ -34,13 +34,13 @@ def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
 
-long_desc = read('README.txt')
+long_desc = read('README.rst')
 
 
 
 setup(
     name = 'sparsesvd',
-    version = '0.1.6',
+    version = '0.1.7',
     description = 'Python module that wraps SVDLIBC, a library for sparse Singular Value Decomposition.',
     long_description = long_desc,
     license = 'BSD',
