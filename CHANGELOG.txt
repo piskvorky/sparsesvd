@@ -1,6 +1,10 @@
 Changes
 =======
 
+0.1.7
+
+* upgraded ez_setup.py (old one still referenced cheeseshop)
+
 0.1.6
 
 * added a license: Free BSD
