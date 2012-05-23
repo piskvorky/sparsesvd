@@ -1,6 +1,10 @@
 Changes
 =======
 
+0.1.8
+
+* added manifest file, for README.rst
+
 0.1.7
 
 * upgraded ez_setup.py (old one still referenced cheeseshop)

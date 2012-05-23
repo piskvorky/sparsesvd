@@ -34,15 +34,11 @@ def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
 
-long_desc = read('README.rst')
-
-
-
 setup(
     name = 'sparsesvd',
-    version = '0.1.7',
+    version = '0.1.8',
     description = 'Python module that wraps SVDLIBC, a library for sparse Singular Value Decomposition.',
-    long_description = long_desc,
+    long_description = read('README.rst'),
     license = 'BSD',
     keywords = 'Singular Value Decomposition, SVD, sparse SVD',
     # there is a bug in python2.5, preventing distutils from using any non-ascii characters :( http://bugs.python.org/issue2562
