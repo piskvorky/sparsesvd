@@ -1,0 +1,4 @@
+include README.rst
+include CHANGELOG.txt
+include ez_setup.py
+
