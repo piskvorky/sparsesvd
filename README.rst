@@ -25,7 +25,8 @@ you'll need to run::
     python setup.py test
     sudo python setup.py install
 
-This version has been tested under Python 2.5 and 2.6, but should run on any 2.5 <= Python < 3.0.
+This version has been tested under Python 2.7 and 3.2, but should run on any
+later versions of both 2.x and 3.x series.
 
 Documentation
 --------------
@@ -44,6 +45,6 @@ of requested factors (an integer).
 
 -------
 
-Original wrapper by Lubos Kardos, package updated and maintained by Radim Rehurek. For an application of sparse SVD to Latent Semantic Analysis, see the `gensim <http://pypi.python.org/pypi/gensim>`_ package.
+Original wrapper by Lubos Kardos, package updated and maintained by Radim Rehurek, Cython and Python 3.x port by Alejandro Pulver. For an application of sparse SVD to Latent Semantic Analysis, see the `gensim <http://pypi.python.org/pypi/gensim>`_ package.
 
 You can use this code under the `simplified BSD license <http://www.opensource.org/licenses/bsd-license.php>`_.

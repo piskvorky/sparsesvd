@@ -1,6 +1,12 @@
 Changes
 =======
 
+0.1.9
+
+* changed build system to distutils
+* use Cython to wrap C library
+* compatible with Python 2 and 3
+
 0.1.8
 
 * added manifest file, for README.rst
