@@ -1,6 +1,11 @@
 Changes
 =======
 
+0.1.9
+
+* use Cython to wrap C library (Alejandro Pulver)
+* compatible with Python 2 and 3 (Alejandro Pulver)
+
 0.1.8
 
 * added manifest file, for README.rst

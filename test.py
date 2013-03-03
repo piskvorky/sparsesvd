@@ -9,7 +9,7 @@ class TestSparseSVD(unittest.TestCase):
             sm = scipy.sparse.csc_matrix(m, dtype = float)
             ut, s, vt = sparsesvd.sparsesvd(sm, 30)
             self.assertTrue(numpy.allclose(m, numpy.dot(ut.T, numpy.dot(numpy.diag(s), vt))))
-        
+
         def test_exception(self):
             m = 5
             self.assertRaises(TypeError, sparsesvd.sparsesvd, m, 3)
