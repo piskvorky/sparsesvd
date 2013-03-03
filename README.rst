@@ -12,27 +12,33 @@ made by the Python wrapper (memory-efficient).
 Installation
 ------------
 
-In order to install `sparsesvd`, you'll need NumPy and Scipy, two Python packages for scientific computing.
-You can get them from `<http://www.scipy.org/Download>`_.
+In order to install `sparsesvd`, you'll need NumPy, Scipy and Cython.
 
-The simple way to install `sparsesvd` is::
+Install `sparsesvd` and its dependencies simply with::
 
-    sudo easy_install -U sparsesvd
+    easy_install -U sparsesvd
 
-Or, if you have instead downloaded and unzipped the `source tar.gz <http://pypi.python.org/pypi/sparsesvd>`_ package,
-you'll need to run::
+or
+
+    pip install -U sparsesvd
+
+In case of problems, see `<http://www.scipy.org/Download>`_ for instructions on installing
+SciPy on various platforms.
+
+If you have instead downloaded and unzipped the `source tar.gz <http://pypi.python.org/pypi/sparsesvd>`_ package, run::
 
     python setup.py test
     sudo python setup.py install
 
-This version has been tested under Python 2.5 and 2.6, but should run on any 2.5 <= Python < 3.0.
+This version has been tested under Python 2.6 and 3.2, but should run on any
+later versions of both 2.x and 3.x series.
 
 Documentation
 --------------
 
 The `sparsesvd` module offers a single function, `sparsesvd`, which accepts two parameters.
-One is a sparse matrix in the `scipy.sparse.csc_matrix` format, the other is the number
-of requested factors (an integer).
+One is a sparse matrix in the `scipy.sparse.csc_matrix` format, the other the number
+of requested factors (an integer):
 
 >>> import numpy, scipy.sparse
 >>> from sparsesvd import sparsesvd
@@ -44,6 +50,6 @@ of requested factors (an integer).
 
 -------
 
-Original wrapper by Lubos Kardos, package updated and maintained by Radim Rehurek. For an application of sparse SVD to Latent Semantic Analysis, see the `gensim <http://pypi.python.org/pypi/gensim>`_ package.
+Original wrapper by Lubos Kardos, package updated and maintained by Radim Rehurek, Cython and Python 3.x port by Alejandro Pulver. For an application of sparse SVD to Latent Semantic Analysis, see the `gensim <http://pypi.python.org/pypi/gensim>`_ package.
 
 You can use this code under the `simplified BSD license <http://www.opensource.org/licenses/bsd-license.php>`_.
