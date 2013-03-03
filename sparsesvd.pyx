@@ -6,12 +6,9 @@ import numpy as np
 from libc.stdlib cimport free
 
 def sparsesvd(matrix, k):
-    if isspmatrix_csc(matrix):
-        pass
-    elif issparse(matrix):
-        matrix = matrix.tocsc()
-    else:
-        raise TypeError("sparsesvd is for sparse matrices, see scipy.sparse")
+    if not isspmatrix_csc(matrix):
+        raise TypeError("First argument must be a scipy.sparse.csc_matrix"")
+    k = int(k)
 
     cdef SVDRec srec
     cdef smat mat
