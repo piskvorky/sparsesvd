@@ -12,20 +12,25 @@ made by the Python wrapper (memory-efficient).
 Installation
 ------------
 
-In order to install `sparsesvd`, you'll need NumPy and Scipy, two Python packages for scientific computing.
-You can get them from `<http://www.scipy.org/Download>`_.
+In order to install `sparsesvd`, you'll need NumPy, Scipy and Cython.
 
-The simple way to install `sparsesvd` is::
+Install `sparsesvd` and its dependencies simply with::
 
-    sudo easy_install -U sparsesvd
+    easy_install -U sparsesvd
 
-Or, if you have instead downloaded and unzipped the `source tar.gz <http://pypi.python.org/pypi/sparsesvd>`_ package,
-you'll need to run::
+or
+
+    pip install -U sparsesvd
+
+In case of problems, see `<http://www.scipy.org/Download>`_ for instructions on installing
+SciPy on various platforms.
+
+If you have instead downloaded and unzipped the `source tar.gz <http://pypi.python.org/pypi/sparsesvd>`_ package, run::
 
     python setup.py test
     sudo python setup.py install
 
-This version has been tested under Python 2.7 and 3.2, but should run on any
+This version has been tested under Python 2.6 and 3.2, but should run on any
 later versions of both 2.x and 3.x series.
 
 Documentation
