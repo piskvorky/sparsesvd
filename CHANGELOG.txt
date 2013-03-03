@@ -3,9 +3,8 @@ Changes
 
 0.1.9
 
-* changed build system to distutils
-* use Cython to wrap C library
-* compatible with Python 2 and 3
+* use Cython to wrap C library (Alejandro Pulver)
+* compatible with Python 2 and 3 (Alejandro Pulver)
 
 0.1.8
 
