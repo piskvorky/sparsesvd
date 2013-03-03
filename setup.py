@@ -15,10 +15,15 @@ import sys
 if sys.version_info[:2] < (2, 5):
     raise Exception('This version of sparsesvd needs Python 2.5 or later.')
 
+import Cython
+# may need to work around setuptools bug by providing a fake Pyrex
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "fake_pyrex"))
+
+
 import ez_setup
 ez_setup.use_setuptools()
-
 from setuptools import setup, Extension
+
 from Cython.Distutils import build_ext
 
 from numpy.distutils.misc_util import get_numpy_include_dirs

@@ -14,13 +14,12 @@ Installation
 
 In order to install `sparsesvd`, you'll need NumPy, Scipy and Cython.
 
-Install `sparsesvd` and its dependencies simply with::
+Install `sparsesvd` and its dependencies with::
 
-    easy_install -U sparsesvd
-
-or
-
-    pip install -U sparsesvd
+    pip install numpy
+    pip install scipy
+    pip install cython
+    pip install sparsesvd
 
 In case of problems, see `<http://www.scipy.org/Download>`_ for instructions on installing
 SciPy on various platforms.
