@@ -30,9 +30,9 @@ def sparsesvd(matrix, k):
     mat.value = <double *>data.data
     """
 
-    cdef long [:] indptr = np.ascontiguousarray(matrix.indptr, dtype=np.long).data
-    cdef long [:] indices = np.ascontiguousarray(matrix.indices, dtype=np.long).data
-    cdef double [:] data = np.ascontiguousarray(matrix.data, dtype=np.double).data
+    cdef long [:] indptr = np.ascontiguousarray(matrix.indptr, dtype=np.long)
+    cdef long [:] indices = np.ascontiguousarray(matrix.indices, dtype=np.long)
+    cdef double [:] data = np.ascontiguousarray(matrix.data, dtype=np.double)
     mat.pointr = &indptr[0]
     mat.rowind = &indices[0]
     mat.value = &data[0]
