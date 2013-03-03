@@ -7,7 +7,7 @@ from libc.stdlib cimport free
 
 def sparsesvd(matrix, k):
     if not isspmatrix_csc(matrix):
-        raise TypeError("First argument must be a scipy.sparse.csc_matrix"")
+        raise TypeError("First argument must be a scipy.sparse.csc_matrix")
     k = int(k)
 
     cdef SVDRec srec
