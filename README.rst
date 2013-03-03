@@ -32,8 +32,8 @@ Documentation
 --------------
 
 The `sparsesvd` module offers a single function, `sparsesvd`, which accepts two parameters.
-One is a sparse matrix in the `scipy.sparse.csc_matrix` format, the other is the number
-of requested factors (an integer).
+One is a sparse matrix in the `scipy.sparse.csc_matrix` format, the other the number
+of requested factors (an integer):
 
 >>> import numpy, scipy.sparse
 >>> from sparsesvd import sparsesvd
