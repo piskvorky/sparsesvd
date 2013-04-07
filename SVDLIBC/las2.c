@@ -6,7 +6,7 @@
 
                            (c) Copyright 1993
                         University of Tennessee
-                          All Rights Reserved                          
+                          All Rights Reserved
  *************************************************************************/
 #include <stdlib.h>
 #include <string.h>
@@ -43,8 +43,8 @@ double rnm, anorm, tol;
 FILE *fp_out1, *fp_out2;
 */
 
-void   purge(long n, long ll, double *r, double *q, double *ra,  
-             double *qa, double *wrk, double *eta, double *oldeta, long step, 
+void   purge(long n, long ll, double *r, double *q, double *ra,
+             double *qa, double *wrk, double *eta, double *oldeta, long step,
              double *rnmp, double tol);
 void   ortbnd(double *alf, double *eta, double *oldeta, double *bet, long step,
               double rnm);
@@ -52,22 +52,22 @@ double startv(SMat A, double *wptr[], long step, long n);
 void   store(long, long, long, double *);
 void   imtql2(long, long, double *, double *, double *);
 void   imtqlb(long n, double d[], double e[], double bnd[]);
-void   write_header(long, long, double, double, long, double, long, long, 
+void   write_header(long, long, double, double, long, double, long, long,
                     long);
-long   check_parameters(SMat A, long dimensions, long iterations, 
+long   check_parameters(SMat A, long dimensions, long iterations,
                         double endl, double endr, long vectors);
 int    lanso(SMat A, long iterations, long dimensions, double endl,
-             double endr, double *ritz, double *bnd, double *wptr[], 
+             double endr, double *ritz, double *bnd, double *wptr[],
              long *neigp, long n);
-long   ritvec(long n, SMat A, SVDRec R, double kappa, double *ritz, 
-              double *bnd, double *alf, double *bet, double *w2, 
+long   ritvec(long n, SMat A, SVDRec R, double kappa, double *ritz,
+              double *bnd, double *alf, double *bet, double *w2,
               long steps, long neig);
 long   lanczos_step(SMat A, long first, long last, double *wptr[],
                     double *alf, double *eta, double *oldeta,
-                    double *bet, long *ll, long *enough, double *rnmp, 
+                    double *bet, long *ll, long *enough, double *rnmp,
                     double *tolp, long n);
 void   stpone(SMat A, double *wrkptr[], double *rnmp, double *tolp, long n);
-long   error_bound(long *, double, double, double *, double *, long step, 
+long   error_bound(long *, double, double, double *, double *, long step,
                    double tol);
 void   machar(long *ibeta, long *it, long *irnd, long *machep, long *negep);
 
@@ -84,35 +84,35 @@ void   machar(long *ibeta, long *it, long *irnd, long *machep, long *negep);
    -----------
 
    This sample program uses landr to compute singular triplets of A via
-   the equivalent symmetric eigenvalue problem                         
+   the equivalent symmetric eigenvalue problem
 
    B x = lambda x, where x' = (u',v'), lambda = sigma**2,
    where sigma is a singular value of A,
-                                                                     
-   B = A'A , and A is m (nrow) by n (ncol) (nrow >> ncol),                
-                                                                 
-   so that {u,sqrt(lambda),v} is a singular triplet of A.        
-   (A' = transpose of A)                                      
-                                                            
-   User supplied routines: svd_opa, opb, store, timer              
-                                                        
+
+   B = A'A , and A is m (nrow) by n (ncol) (nrow >> ncol),
+
+   so that {u,sqrt(lambda),v} is a singular triplet of A.
+   (A' = transpose of A)
+
+   User supplied routines: svd_opa, opb, store, timer
+
    svd_opa(     x,y) takes an n-vector x and returns A*x in y.
    svd_opb(ncol,x,y) takes an n-vector x and returns B*x in y.
-                                                                  
-   Based on operation flag isw, store(n,isw,j,s) stores/retrieves 
-   to/from storage a vector of length n in s.                   
-                                                               
+
+   Based on operation flag isw, store(n,isw,j,s) stores/retrieves
+   to/from storage a vector of length n in s.
+
    User should edit timer() with an appropriate call to an intrinsic
-   timing routine that returns elapsed user time.                      
+   timing routine that returns elapsed user time.
 
 
-   External parameters 
+   External parameters
    -------------------
 
    Defined and documented in las2.h
 
 
-   Local parameters 
+   Local parameters
    ----------------
 
   (input)
@@ -126,10 +126,10 @@ void   machar(long *ibeta, long *it, long *irnd, long *machep, long *negep);
    dimensions   upper limit of desired number of singular triplets of A
    iterations   upper limit of desired number of Lanczos steps
    nnzero   number of nonzeros in A
-   vectors  1 indicates both singular values and singular vectors are 
+   vectors  1 indicates both singular values and singular vectors are
 	      wanted and they can be found in output file lav2;
-	      0 indicates only singular values are wanted 
-   		
+	      0 indicates only singular values are wanted
+
   (output)
    ritz	    array of ritz values
    bnd      array of error bounds
@@ -160,7 +160,7 @@ void   machar(long *ibeta, long *it, long *irnd, long *machep, long *negep);
    library written by Michael W. Berry, University of Tennessee,
    Dept. of Computer Science, 107 Ayres Hall, Knoxville, TN, 37996-1301
 
-   31 Jan 1992:  Date written 
+   31 Jan 1992:  Date written
 
    Theresa H. Do
    University of Tennessee
@@ -180,23 +180,23 @@ void   machar(long *ibeta, long *it, long *irnd, long *machep, long *negep);
 
    Description
    -----------
-   Function validates input parameters and returns error code (long)  
+   Function validates input parameters and returns error code (long)
 
-   Parameters 
+   Parameters
    ----------
   (input)
-   dimensions   upper limit of desired number of eigenpairs of B           
-   iterations   upper limit of desired number of lanczos steps             
-   n        dimension of the eigenproblem for matrix B               
+   dimensions   upper limit of desired number of eigenpairs of B
+   iterations   upper limit of desired number of lanczos steps
+   n        dimension of the eigenproblem for matrix B
    endl     left end of interval containing unwanted eigenvalues of B
    endr     right end of interval containing unwanted eigenvalues of B
-   vectors  1 indicates both eigenvalues and eigenvectors are wanted 
+   vectors  1 indicates both eigenvalues and eigenvectors are wanted
             and they can be found in lav2; 0 indicates eigenvalues only
-   nnzero   number of nonzero elements in input matrix (matrix A)      
-                                                                      
+   nnzero   number of nonzero elements in input matrix (matrix A)
+
  ***********************************************************************/
 
-long check_parameters(SMat A, long dimensions, long iterations, 
+long check_parameters(SMat A, long dimensions, long iterations,
 		      double endl, double endr, long vectors) {
    long error_index;
    error_index = 0;
@@ -208,7 +208,7 @@ long check_parameters(SMat A, long dimensions, long iterations,
    else if (iterations <= 0 || iterations > A->cols || iterations > A->rows)
      error_index = 5;
    else if (dimensions <= 0 || dimensions > iterations) error_index = 6;
-   if (error_index) 
+   if (error_index)
      svd_error("svdLAS2 parameter error: %s\n", error_msg[error_index]);
    return(error_index);
 }
@@ -220,14 +220,14 @@ long check_parameters(SMat A, long dimensions, long iterations,
  *								       *
  ***********************************************************************/
 
-void write_header(long iterations, long dimensions, double endl, double endr, 
-                  long vectors, double kappa, long nrow, long ncol, 
+void write_header(long iterations, long dimensions, double endl, double endr,
+                  long vectors, double kappa, long nrow, long ncol,
                   long vals) {
   printf("SOLVING THE [A^TA] EIGENPROBLEM\n");
   printf("NO. OF ROWS               = %6ld\n", nrow);
   printf("NO. OF COLUMNS            = %6ld\n", ncol);
   printf("NO. OF NON-ZERO VALUES    = %6ld\n", vals);
-  printf("MATRIX DENSITY            = %6.2f%%\n", 
+  printf("MATRIX DENSITY            = %6.2f%%\n",
          ((float) vals / nrow) * 100 / ncol);
   /* printf("ORDER OF MATRIX A         = %5ld\n", n); */
   printf("MAX. NO. OF LANCZOS STEPS = %6ld\n", iterations);
@@ -255,11 +255,11 @@ void write_header(long iterations, long dimensions, double endl, double endr,
    -----------
 
    landr() is the LAS2 driver routine that, upon entry,
-     (1)  checks for the validity of input parameters of the 
-	  B-eigenproblem 
+     (1)  checks for the validity of input parameters of the
+	  B-eigenproblem
      (2)  determines several machine constants
      (3)  makes a Lanczos run
-     (4)  calculates B-eigenvectors (singular vectors of A) if requested 
+     (4)  calculates B-eigenvectors (singular vectors of A) if requested
 	  by user
 
 
@@ -274,16 +274,16 @@ void write_header(long iterations, long dimensions, double endl, double endr,
    endl     left end of interval containing unwanted eigenvalues of B
    endr     right end of interval containing unwanted eigenvalues of B
    vectors  1 indicates both eigenvalues and eigenvectors are wanted
-              and they can be found in output file lav2; 
+              and they can be found in output file lav2;
 	    0 indicates only eigenvalues are wanted
    kappa    relative accuracy of ritz values acceptable as eigenvalues
 	      of B (singular values of A)
    r        work array
 
    (output)
-   j        number of Lanczos steps actually taken                     
-   neig     number of ritz values stabilized                           
-   ritz     array to hold the ritz values                              
+   j        number of Lanczos steps actually taken
+   neig     number of ritz values stabilized
+   ritz     array to hold the ritz values
    bnd      array to hold the error bounds
 
 
@@ -323,14 +323,14 @@ SVDRec svdLAS2A(SMat A, long dimensions) {
 }
 
 
-SVDRec svdLAS2(SMat A, long dimensions, long iterations, double end[2], 
+SVDRec svdLAS2(SMat A, long dimensions, long iterations, double end[2],
                double kappa) {
   char transpose = FALSE;
   long ibeta, it, irnd, machep, negep, n, i, steps, nsig, neig, m;
   double *wptr[10], *ritz, *bnd;
   SVDRec R = NULL;
   ierr = 0; // reset the global error flag
-  
+
   svdResetCounters();
 
   m = svd_imin(A->rows, A->cols);
@@ -342,7 +342,7 @@ SVDRec svdLAS2(SMat A, long dimensions, long iterations, double end[2],
 
   /* Write output header */
   if (SVDVerbosity > 0)
-    write_header(iterations, dimensions, end[0], end[1], TRUE, kappa, A->rows, 
+    write_header(iterations, dimensions, end[0], end[1], TRUE, kappa, A->rows,
                  A->cols, A->vals);
 
   /* Check parameters */
@@ -357,7 +357,7 @@ SVDRec svdLAS2(SMat A, long dimensions, long iterations, double end[2],
   }
 
   n = A->cols;
-  /* Compute machine precision */ 
+  /* Compute machine precision */
   machar(&ibeta, &it, &irnd, &machep, &negep);
   eps1 = eps * sqrt((double) n);
   reps = sqrt(eps);
@@ -370,29 +370,29 @@ SVDRec svdLAS2(SMat A, long dimensions, long iterations, double end[2],
   if (!(wptr[3] = svd_doubleArray(n, FALSE, "las2: wptr[3]"))) goto abort;
   if (!(wptr[4] = svd_doubleArray(n, FALSE, "las2: wptr[4]"))) goto abort;
   if (!(wptr[5] = svd_doubleArray(n, FALSE, "las2: wptr[5]"))) goto abort;
-  if (!(wptr[6] = svd_doubleArray(iterations, FALSE, "las2: wptr[6]"))) 
+  if (!(wptr[6] = svd_doubleArray(iterations, FALSE, "las2: wptr[6]")))
     goto abort;
-  if (!(wptr[7] = svd_doubleArray(iterations, FALSE, "las2: wptr[7]"))) 
+  if (!(wptr[7] = svd_doubleArray(iterations, FALSE, "las2: wptr[7]")))
     goto abort;
-  if (!(wptr[8] = svd_doubleArray(iterations, FALSE, "las2: wptr[8]"))) 
+  if (!(wptr[8] = svd_doubleArray(iterations, FALSE, "las2: wptr[8]")))
     goto abort;
-  if (!(wptr[9] = svd_doubleArray(iterations + 1, FALSE, "las2: wptr[9]"))) 
+  if (!(wptr[9] = svd_doubleArray(iterations + 1, FALSE, "las2: wptr[9]")))
     goto abort;
   /* Calloc may be unnecessary: */
-  if (!(ritz    = svd_doubleArray(iterations + 1, TRUE, "las2: ritz"))) 
-    goto abort;  
+  if (!(ritz    = svd_doubleArray(iterations + 1, TRUE, "las2: ritz")))
+    goto abort;
   /* Calloc may be unnecessary: */
-  if (!(bnd     = svd_doubleArray(iterations + 1, TRUE, "las2: bnd"))) 
+  if (!(bnd     = svd_doubleArray(iterations + 1, TRUE, "las2: bnd")))
     goto abort;
   memset(bnd, 127, (iterations + 1) * sizeof(double));
 
   if (!(LanStore = (double **) calloc(iterations + MAXLL, sizeof(double *))))
     goto abort;
-  if (!(OPBTemp = svd_doubleArray(A->rows, FALSE, "las2: OPBTemp"))) 
+  if (!(OPBTemp = svd_doubleArray(A->rows, FALSE, "las2: OPBTemp")))
     goto abort;
 
   /* Actually run the lanczos thing: */
-  steps = lanso(A, iterations, dimensions, end[0], end[1], ritz, bnd, wptr, 
+  steps = lanso(A, iterations, dimensions, end[0], end[1], ritz, bnd, wptr,
                 &neig, n);
 
   /* Print some stuff. */
@@ -416,7 +416,7 @@ SVDRec svdLAS2(SMat A, long dimensions, long iterations, double end[2],
 
   /* Compute eigenvectors */
   kappa = svd_dmax(fabs(kappa), eps34);
-  
+
   R = svdNewSVDRec();
   if (!R) {
     svd_error("svdLAS2: allocation of R failed");
@@ -431,10 +431,9 @@ SVDRec svdLAS2(SMat A, long dimensions, long iterations, double end[2],
     goto cleanup;
   }
 
-  nsig = ritvec(n, A, R, kappa, ritz, bnd, wptr[6], wptr[9], wptr[5], steps, 
+  nsig = ritvec(n, A, R, kappa, ritz, bnd, wptr[6], wptr[9], wptr[5], steps,
                 neig);
-  if(!nsig) {
-  }
+
   if (SVDVerbosity > 1) {
 //    printf("\nSINGULAR VALUES: ");
 //    svdWriteDenseArray(R->S, R->d, "-", FALSE);
@@ -450,7 +449,7 @@ SVDRec svdLAS2(SMat A, long dimensions, long iterations, double end[2],
   } else if (SVDVerbosity > 0)
     printf("SINGULAR VALUES FOUND     = %6d\n", R->d);
 
- cleanup:    
+ cleanup:
   for (i = 0; i <= 9; i++)
     SAFE_FREE(wptr[i]);
   SAFE_FREE(ritz);
@@ -490,7 +489,7 @@ abort:
    -----------
 
    This function is invoked by landr() only if eigenvectors of the A'A
-   eigenproblem are desired.  When called, ritvec() computes the 
+   eigenproblem are desired.  When called, ritvec() computes the
    singular vectors of A and writes the result to an unformatted file.
 
 
@@ -502,7 +501,7 @@ abort:
    steps      number of Lanczos iterations performed
    fp_out2    pointer to unformatted output file
    n	      dimension of matrix A
-   kappa      relative accuracy of ritz values acceptable as 
+   kappa      relative accuracy of ritz values acceptable as
 		eigenvalues of A'A
    ritz       array of ritz values
    bnd        array of error bounds
@@ -521,7 +520,7 @@ abort:
    (local)
    s	      work array which is initialized to the identity matrix
 	      of order (j + 1) upon calling imtql2().  After the call,
-	      s contains the orthonormal eigenvectors of the symmetric 
+	      s contains the orthonormal eigenvectors of the symmetric
 	      tridiagonal matrix T
 
    Functions used
@@ -552,88 +551,88 @@ void rotateArray(double *a, int size, int x) {
   }
 }
 
-long ritvec(long n, SMat A, SVDRec R, double kappa, double *ritz, double *bnd, 
+long ritvec(long n, SMat A, SVDRec R, double kappa, double *ritz, double *bnd,
             double *alf, double *bet, double *w2, long steps, long neig) {
   long js, jsq, i, k, /*size,*/ id2, tmp, nsig, x;
   double *s, *xv2, tmp0, tmp1, xnorm, *w1 = R->Vt->value[0];
-  
+
   js = steps + 1;
   jsq = js * js;
   /*size = sizeof(double) * n;*/
-  
+
   s = svd_doubleArray(jsq, TRUE, "ritvec: s");
   xv2 = svd_doubleArray(n, FALSE, "ritvec: xv2");
-  
+
   /* initialize s to an identity matrix */
   for (i = 0; i < jsq; i+= (js+1)) s[i] = 1.0;
   svd_dcopy(js, alf, 1, w1, -1);
   svd_dcopy(steps, &bet[1], 1, &w2[1], -1);
-  
-  /* on return from imtql2(), w1 contains eigenvalues in ascending 
+
+  /* on return from imtql2(), w1 contains eigenvalues in ascending
    * order and s contains the corresponding eigenvectors */
   imtql2(js, js, w1, w2, s);
-  
+
   /*fwrite((char *)&n, sizeof(n), 1, fp_out2);
     fwrite((char *)&js, sizeof(js), 1, fp_out2);
     fwrite((char *)&kappa, sizeof(kappa), 1, fp_out2);*/
   /*id = 0;*/
   nsig = 0;
   if (ierr) {
-	  R->d = 0;
+    R->d = 0;
   } else {
-	  x = 0;
-	  id2 = jsq - js;
-	  for (k = 0; k < js; k++) {
-	    tmp = id2;
-	    if (bnd[k] <= kappa * fabs(ritz[k]) && k > js-neig-1) {
-	      if (--x < 0) x = R->d - 1;
-	      w1 = R->Vt->value[x];
-	      for (i = 0; i < n; i++) w1[i] = 0.0;
-	      for (i = 0; i < js; i++) {
-	        store(n, RETRQ, i, w2);
-	        svd_daxpy(n, s[tmp], w2, 1, w1, 1);
-	        tmp -= js;
-	      }
-	      /*fwrite((char *)w1, size, 1, fp_out2);*/
-	      
-	      /* store the w1 vector row-wise in array xv1;   
-	       * size of xv1 is (steps+1) * (nrow+ncol) elements 
-	       * and each vector, even though only ncol long,
-	       * will have (nrow+ncol) elements in xv1.      
-	       * It is as if xv1 is a 2-d array (steps+1) by     
-	       * (nrow+ncol) and each vector occupies a row  */
-	
-	      /* j is the index in the R arrays, which are sorted by high to low 
-	         singular values. */
-	        
-	      /*for (i = 0; i < n; i++) R->Vt->value[x]xv1[id++] = w1[i];*/
-	      /*id += nrow;*/
-	      nsig++;
-	    }
-	    id2++;
-	  }
-	
-	  /* Rotate the singular vectors and values. */
-	  /* x is now the location of the highest singular value. */
-	  rotateArray(R->Vt->value[0], R->Vt->rows * R->Vt->cols, 
-	              x * R->Vt->cols);
-	  R->d = svd_imin(R->d, nsig);
-	  for (x = 0; x < R->d; x++) {
-	    /* multiply by matrix B first */
-	    svd_opb(A, R->Vt->value[x], xv2, OPBTemp);
-	    tmp0 = svd_ddot(n, R->Vt->value[x], 1, xv2, 1);
-	    svd_daxpy(n, -tmp0, R->Vt->value[x], 1, xv2, 1);
-	    tmp0 = sqrt(tmp0);
-	    xnorm = sqrt(svd_ddot(n, xv2, 1, xv2, 1));
-	      
-	    /* multiply by matrix A to get (scaled) left s-vector */
-	    svd_opa(A, R->Vt->value[x], R->Ut->value[x]);
-	    tmp1 = 1.0 / tmp0;
-	    svd_dscal(A->rows, tmp1, R->Ut->value[x], 1);
-	    xnorm *= tmp1;
-	    bnd[i] = xnorm;
-	    R->S[x] = tmp0;
-	  }
+    x = 0;
+    id2 = jsq - js;
+    for (k = 0; k < js; k++) {
+      tmp = id2;
+      if (bnd[k] <= kappa * fabs(ritz[k]) && k > js-neig-1) {
+        if (--x < 0) x = R->d - 1;
+        w1 = R->Vt->value[x];
+        for (i = 0; i < n; i++) w1[i] = 0.0;
+        for (i = 0; i < js; i++) {
+          store(n, RETRQ, i, w2);
+          svd_daxpy(n, s[tmp], w2, 1, w1, 1);
+          tmp -= js;
+        }
+        /*fwrite((char *)w1, size, 1, fp_out2);*/
+
+        /* store the w1 vector row-wise in array xv1;
+         * size of xv1 is (steps+1) * (nrow+ncol) elements
+         * and each vector, even though only ncol long,
+         * will have (nrow+ncol) elements in xv1.
+         * It is as if xv1 is a 2-d array (steps+1) by
+         * (nrow+ncol) and each vector occupies a row  */
+
+        /* j is the index in the R arrays, which are sorted by high to low
+           singular values. */
+
+        /*for (i = 0; i < n; i++) R->Vt->value[x]xv1[id++] = w1[i];*/
+        /*id += nrow;*/
+        nsig++;
+      }
+      id2++;
+    }
+
+    /* Rotate the singular vectors and values. */
+    /* x is now the location of the highest singular value. */
+    rotateArray(R->Vt->value[0], R->Vt->rows * R->Vt->cols,
+                x * R->Vt->cols);
+    R->d = svd_imin(R->d, nsig);
+    for (x = 0; x < R->d; x++) {
+      /* multiply by matrix B first */
+      svd_opb(A, R->Vt->value[x], xv2, OPBTemp);
+      tmp0 = svd_ddot(n, R->Vt->value[x], 1, xv2, 1);
+      svd_daxpy(n, -tmp0, R->Vt->value[x], 1, xv2, 1);
+      tmp0 = sqrt(tmp0);
+      xnorm = sqrt(svd_ddot(n, xv2, 1, xv2, 1));
+
+      /* multiply by matrix A to get (scaled) left s-vector */
+      svd_opa(A, R->Vt->value[x], R->Ut->value[x]);
+      tmp1 = 1.0 / tmp0;
+      svd_dscal(A->rows, tmp1, R->Ut->value[x], 1);
+      xnorm *= tmp1;
+      bnd[i] = xnorm;
+      R->S[x] = tmp0;
+    }
   }
   SAFE_FREE(s);
   SAFE_FREE(xv2);
@@ -650,27 +649,27 @@ long ritvec(long n, SMat A, SVDRec R, double kappa, double *ritz, double *bnd,
    Description
    -----------
 
-   Function determines when the restart of the Lanczos algorithm should 
+   Function determines when the restart of the Lanczos algorithm should
    occur and when it should terminate.
 
-   Arguments 
+   Arguments
    ---------
 
    (input)
    n         dimension of the eigenproblem for matrix B
-   iterations    upper limit of desired number of lanczos steps           
-   dimensions    upper limit of desired number of eigenpairs             
+   iterations    upper limit of desired number of lanczos steps
+   dimensions    upper limit of desired number of eigenpairs
    endl      left end of interval containing unwanted eigenvalues
    endr      right end of interval containing unwanted eigenvalues
-   ritz      array to hold the ritz values                       
-   bnd       array to hold the error bounds                          
-   wptr      array of pointers that point to work space:            
-  	       wptr[0]-wptr[5]  six vectors of length n		
+   ritz      array to hold the ritz values
+   bnd       array to hold the error bounds
+   wptr      array of pointers that point to work space:
+  	       wptr[0]-wptr[5]  six vectors of length n
   	       wptr[6] array to hold diagonal of the tridiagonal matrix T
-  	       wptr[9] array to hold off-diagonal of T	
-  	       wptr[7] orthogonality estimate of Lanczos vectors at 
+  	       wptr[9] array to hold off-diagonal of T
+  	       wptr[7] orthogonality estimate of Lanczos vectors at
 		 step j
- 	       wptr[8] orthogonality estimate of Lanczos vectors at 
+ 	       wptr[8] orthogonality estimate of Lanczos vectors at
 		 step j-1
 
    (output)
@@ -695,17 +694,17 @@ long ritvec(long n, SMat A, SVDRec R, double kappa, double *ritz, double *bnd,
  ***********************************************************************/
 
 int lanso(SMat A, long iterations, long dimensions, double endl,
-          double endr, double *ritz, double *bnd, double *wptr[], 
+          double endr, double *ritz, double *bnd, double *wptr[],
           long *neigp, long n) {
   double *alf, *eta, *oldeta, *bet, *wrk, rnm, tol;
-  long ll, first, last, ENOUGH, id2, id3, i, l, neig, j = 0, intro = 0;
-  
+  long ll, first, last, ENOUGH, id1, id2, id3, i, l, neig, j = 0, intro = 0;
+
   alf = wptr[6];
   eta = wptr[7];
   oldeta = wptr[8];
   bet = wptr[9];
   wrk = wptr[5];
-  
+
   /* take the first step */
   stpone(A, wptr, &rnm, &tol, n);
   if (!rnm || ierr) return 0;
@@ -715,66 +714,72 @@ int lanso(SMat A, long iterations, long dimensions, double endl,
   first = 1;
   last = svd_imin(dimensions + svd_imax(8, dimensions), iterations);
   ENOUGH = FALSE;
-  /*id1 = 0;*/
+  id1 = 0;
   while (/*id1 < dimensions && */!ENOUGH) {
     if (rnm <= tol) rnm = 0.0;
-    
+
     /* the actual lanczos loop */
     j = lanczos_step(A, first, last, wptr, alf, eta, oldeta, bet, &ll,
                      &ENOUGH, &rnm, &tol, n);
+
     if (ENOUGH) j = j - 1;
     else j = last - 1;
     first = j + 1;
     bet[j+1] = rnm;
-    
+
     /* analyze T */
     l = 0;
     for (id2 = 0; id2 < j; id2++) {
       if (l > j) break;
       for (i = l; i <= j; i++) if (!bet[i+1]) break;
       if (i > j) i = j;
-      
+
       /* now i is at the end of an unreduced submatrix */
       svd_dcopy(i-l+1, &alf[l],   1, &ritz[l],  -1);
       svd_dcopy(i-l,   &bet[l+1], 1, &wrk[l+1], -1);
-      
+
       imtqlb(i-l+1, &ritz[l], &wrk[l], &bnd[l]);
-      
+
       if (ierr) {
         svd_error("svdLAS2: imtqlb failed to converge (ierr = %ld)\n", ierr);
         svd_error("  l = %ld  i = %ld\n", l, i);
-        for (id3 = l; id3 <= i; id3++) 
-          svd_error("  %ld  %lg  %lg  %lg\n", 
+        for (id3 = l; id3 <= i; id3++) {
+          svd_error("  %ld  %lg  %lg  %lg\n",
                     id3, ritz[id3], wrk[id3], bnd[id3]);
+        }
       }
-      for (id3 = l; id3 <= i; id3++) 
+      for (id3 = l; id3 <= i; id3++) {
         bnd[id3] = rnm * fabs(bnd[id3]);
+      }
       l = i + 1;
     }
-    
+
     /* sort eigenvalues into increasing order */
     svd_dsort2((j+1) / 2, j + 1, ritz, bnd);
-
-    /*    for (i = 0; i < iterations; i++)
-      printf("%f ", ritz[i]);
-      printf("\n"); */
-    
     /* massage error bounds for very close ritz values */
     neig = error_bound(&ENOUGH, endl, endr, ritz, bnd, j, tol);
+
+    /*for (i = 0; i < iterations; i++) {
+      printf("%ld. ritz=%E bnd=%E\n", i, ritz[i], bnd[i]);
+    }*/
+
     *neigp = neig;
-    
+
     /* should we stop? */
     if (neig < dimensions) {
       if (!neig) {
         last = first + 9;
         intro = first;
-      } else last = first + svd_imax(3, 1 + ((j - intro) * (dimensions-neig)) /
-                                     neig);
+      } else {
+        last = first + svd_imax(3, 1 + ((j - intro) * (dimensions-neig)) / neig);
+      }
       last = svd_imin(last, iterations);
-    } else ENOUGH = TRUE;
+    } else {
+      ENOUGH = TRUE;
+    }
     ENOUGH = ENOUGH || first >= iterations;
-    /* id1++; */
-    /* printf("id1=%d dimen=%d first=%d\n", id1, dimensions, first); */
+    id1++;
+    /*printf("end of id1=%ld dimen=%ld first=%ld\n", id1, dimensions, first);*/
   }
   store(n, STORQ, j, wptr[1]);
   return j;
@@ -793,21 +798,21 @@ int lanso(SMat A, long iterations, long dimensions, double endl,
 
    Function embodies a single Lanczos step
 
-   Arguments 
+   Arguments
    ---------
 
    (input)
    n        dimension of the eigenproblem for matrix B
-   first    start of index through loop				      
-   last     end of index through loop				     
-   wptr	    array of pointers pointing to work space		    
+   first    start of index through loop
+   last     end of index through loop
+   wptr	    array of pointers pointing to work space
    alf	    array to hold diagonal of the tridiagonal matrix T
-   eta      orthogonality estimate of Lanczos vectors at step j   
+   eta      orthogonality estimate of Lanczos vectors at step j
    oldeta   orthogonality estimate of Lanczos vectors at step j-1
-   bet      array to hold off-diagonal of T                     
-   ll       number of intitial Lanczos vectors in local orthog. 
-              (has value of 0, 1 or 2)			
-   enough   stop flag			
+   bet      array to hold off-diagonal of T
+   ll       number of intitial Lanczos vectors in local orthog.
+              (has value of 0, 1 or 2)
+   enough   stop flag
 
    Functions used
    --------------
@@ -821,7 +826,7 @@ int lanso(SMat A, long iterations, long dimensions, double endl,
 
 long lanczos_step(SMat A, long first, long last, double *wptr[],
 		  double *alf, double *eta, double *oldeta,
-		  double *bet, long *ll, long *enough, double *rnmp, 
+		  double *bet, long *ll, long *enough, double *rnmp,
                   double *tolp, long n) {
    double t, *mid, rnm = *rnmp, tol = *tolp, anorm;
    long i, j;
@@ -840,9 +845,9 @@ long lanczos_step(SMat A, long first, long last, double *wptr[],
 
       /* restart if invariant subspace is found */
       if (!bet[j]) {
-	 rnm = startv(A, wptr, j, n);
-	 if (ierr) return j;
-	 if (!rnm) *enough = TRUE;
+        rnm = startv(A, wptr, j, n);
+        if (ierr) return j;
+        if (!rnm) *enough = TRUE;
       }
       if (*enough) {
         /* added by Doug... */
@@ -864,15 +869,16 @@ long lanczos_step(SMat A, long first, long last, double *wptr[],
       svd_daxpy(n, -alf[j], wptr[1], 1, wptr[0], 1);
 
       /* orthogonalize against initial lanczos vectors */
-      if (j <= MAXLL && (fabs(alf[j-1]) > 4.0 * fabs(alf[j])))
-	 *ll = j;  
+      if (j <= MAXLL && (fabs(alf[j-1]) > 4.0 * fabs(alf[j]))) {
+        *ll = j;
+      }
       for (i=0; i < svd_imin(*ll, j-1); i++) {
-	 store(n, RETRP, i, wptr[5]);
-	 t = svd_ddot(n, wptr[5], 1, wptr[0], 1);
-	 store(n, RETRQ, i, wptr[5]);
-         svd_daxpy(n, -t, wptr[5], 1, wptr[0], 1);
-	 eta[i] = eps1;
-	 oldeta[i] = eps1;
+        store(n, RETRP, i, wptr[5]);
+        t = svd_ddot(n, wptr[5], 1, wptr[0], 1);
+        store(n, RETRQ, i, wptr[5]);
+        svd_daxpy(n, -t, wptr[5], 1, wptr[0], 1);
+        eta[i] = eps1;
+        oldeta[i] = eps1;
       }
 
       /* extended local reorthogonalization */
@@ -912,22 +918,22 @@ long lanczos_step(SMat A, long first, long last, double *wptr[],
 
    Funtion updates the eta recurrence
 
-   Arguments 
+   Arguments
    ---------
 
    (input)
-   alf      array to hold diagonal of the tridiagonal matrix T         
-   eta      orthogonality estimate of Lanczos vectors at step j        
-   oldeta   orthogonality estimate of Lanczos vectors at step j-1     
-   bet      array to hold off-diagonal of T                          
-   n        dimension of the eigenproblem for matrix B		    
-   j        dimension of T					  
-   rnm	    norm of the next residual vector			 
+   alf      array to hold diagonal of the tridiagonal matrix T
+   eta      orthogonality estimate of Lanczos vectors at step j
+   oldeta   orthogonality estimate of Lanczos vectors at step j-1
+   bet      array to hold off-diagonal of T
+   n        dimension of the eigenproblem for matrix B
+   j        dimension of T
+   rnm	    norm of the next residual vector
    eps1	    roundoff estimate for dot product of two unit vectors
 
    (output)
-   eta      orthogonality estimate of Lanczos vectors at step j+1     
-   oldeta   orthogonality estimate of Lanczos vectors at step j        
+   eta      orthogonality estimate of Lanczos vectors at step j+1
+   oldeta   orthogonality estimate of Lanczos vectors at step j
 
 
    Functions used
@@ -946,12 +952,12 @@ void ortbnd(double *alf, double *eta, double *oldeta, double *bet, long step,
 	 oldeta[0] = (bet[1] * eta[1] + (alf[0]-alf[step]) * eta[0] -
 		      bet[step] * oldeta[0]) / rnm + eps1;
       }
-      for (i=1; i<=step-2; i++) 
+      for (i=1; i<=step-2; i++)
 	 oldeta[i] = (bet[i+1] * eta[i+1] + (alf[i]-alf[step]) * eta[i] +
 		      bet[i] * eta[i-1] - bet[step] * oldeta[i])/rnm + eps1;
    }
    oldeta[step-1] = eps1;
-   svd_dswap(step, oldeta, 1, eta, 1);  
+   svd_dswap(step, oldeta, 1, eta, 1);
    eta[step] = eps1;
    return;
 }
@@ -967,27 +973,27 @@ void ortbnd(double *alf, double *eta, double *oldeta, double *bet, long step,
    -----------
 
    Function examines the state of orthogonality between the new Lanczos
-   vector and the previous ones to decide whether re-orthogonalization 
+   vector and the previous ones to decide whether re-orthogonalization
    should be performed
 
 
-   Arguments 
+   Arguments
    ---------
 
    (input)
-   n        dimension of the eigenproblem for matrix B		       
-   ll       number of intitial Lanczos vectors in local orthog.       
-   r        residual vector to become next Lanczos vector            
-   q        current Lanczos vector			           
+   n        dimension of the eigenproblem for matrix B
+   ll       number of intitial Lanczos vectors in local orthog.
+   r        residual vector to become next Lanczos vector
+   q        current Lanczos vector
    ra       previous Lanczos vector
    qa       previous Lanczos vector
    wrk      temporary vector to hold the previous Lanczos vector
-   eta      state of orthogonality between r and prev. Lanczos vectors 
+   eta      state of orthogonality between r and prev. Lanczos vectors
    oldeta   state of orthogonality between q and prev. Lanczos vectors
-   j        current Lanczos step				     
+   j        current Lanczos step
 
    (output)
-   r	    residual vector orthogonalized against previous Lanczos 
+   r	    residual vector orthogonalized against previous Lanczos
 	      vectors
    q        current Lanczos vector orthogonalized against previous ones
 
@@ -1000,14 +1006,14 @@ void ortbnd(double *alf, double *eta, double *oldeta, double *bet, long step,
 
  ***********************************************************************/
 
-void purge(long n, long ll, double *r, double *q, double *ra,  
-	   double *qa, double *wrk, double *eta, double *oldeta, long step, 
+void purge(long n, long ll, double *r, double *q, double *ra,
+	   double *qa, double *wrk, double *eta, double *oldeta, long step,
            double *rnmp, double tol) {
   double t, tq, tr, reps1, rnm = *rnmp;
   long k, iteration, flag, i;
-  
-  if (step < ll+2) return; 
-  
+
+  if (step < ll+2) return;
+
   k = svd_idamax(step - (ll+1), &eta[ll], 1) + ll;
   if (fabs(eta[k]) > reps) {
     reps1 = eps1 / reps;
@@ -1015,8 +1021,8 @@ void purge(long n, long ll, double *r, double *q, double *ra,
     flag = TRUE;
     while (iteration < 2 && flag) {
       if (rnm > tol) {
-        
-        /* bring in a lanczos vector t and orthogonalize both 
+
+        /* bring in a lanczos vector t and orthogonalize both
          * r and q against it */
         tq = 0.0;
         tr = 0.0;
@@ -1039,7 +1045,7 @@ void purge(long n, long ll, double *r, double *q, double *ra,
       }
       iteration++;
     }
-    for (i = ll; i <= step; i++) { 
+    for (i = ll; i <= step; i++) {
       eta[i] = eps1;
       oldeta[i] = eps1;
     }
@@ -1062,7 +1068,7 @@ void purge(long n, long ll, double *r, double *q, double *ra,
    Function performs the first step of the Lanczos algorithm.  It also
    does a step of extended local re-orthogonalization.
 
-   Arguments 
+   Arguments
    ---------
 
    (input)
@@ -1076,7 +1082,7 @@ void purge(long n, long ll, double *r, double *q, double *ra,
 	    wptr[2]             q[j-1]
 	    wptr[3]             p
 	    wptr[4]             p[j-1]
-	    wptr[6]             diagonal elements of matrix T 
+	    wptr[6]             diagonal elements of matrix T
 
 
    Functions used
@@ -1127,11 +1133,11 @@ void stpone(SMat A, double *wrkptr[], double *rnmp, double *tolp, long n) {
    Description
    -----------
 
-   Function delivers a starting vector in r and returns |r|; it returns 
-   zero if the range is spanned, and ierr is non-zero if no starting 
+   Function delivers a starting vector in r and returns |r|; it returns
+   zero if the range is spanned, and ierr is non-zero if no starting
    vector within range of operator can be found.
 
-   Parameters 
+   Parameters
    ---------
 
    (input)
@@ -1164,7 +1170,7 @@ double startv(SMat A, double *wptr[], long step, long n) {
    irand = 918273 + step;
    r = wptr[0];
    for (id = 0; id < 3; id++) {
-      if (id > 0 || step > 0 || rnm2 == 0) 
+      if (id > 0 || step > 0 || rnm2 == 0)
 	 for (i = 0; i < n; i++) r[i] = svd_random2(&irand);
       svd_dcopy(n, wptr[0], 1, wptr[3], 1);
 
@@ -1208,12 +1214,12 @@ double startv(SMat A, double *wptr[], long step, long n) {
    Description
    -----------
 
-   Function massages error bounds for very close ritz values by placing 
-   a gap between them.  The error bounds are then refined to reflect 
+   Function massages error bounds for very close ritz values by placing
+   a gap between them.  The error bounds are then refined to reflect
    this.
 
 
-   Arguments 
+   Arguments
    ---------
 
    (input)
@@ -1232,29 +1238,34 @@ double startv(SMat A, double *wptr[], long step, long n) {
 
  ***********************************************************************/
 
-long error_bound(long *enough, double endl, double endr, 
+long error_bound(long *enough, double endl, double endr,
                  double *ritz, double *bnd, long step, double tol) {
   long mid, i, neig;
   double gapl, gap;
-  
+
   /* massage error bounds for very close ritz values */
   mid = svd_idamax(step + 1, bnd, 1);
 
-  for (i=((step+1) + (step-1)) / 2; i >= mid + 1; i -= 1)
-    if (fabs(ritz[i-1] - ritz[i]) < eps34 * fabs(ritz[i])) 
+  for (i=((step+1) + (step-1)) / 2; i >= mid + 1; i -= 1) {
+    /*printf("gap=%E eps34=%E reps=%E fabs=%E\n",
+      fabs(ritz[i-1] - ritz[i]), eps34, reps, fabs(ritz[i]));*/
+    if (fabs(ritz[i-1] - ritz[i]) < eps34 * fabs(ritz[i])) {
       if (bnd[i] > tol && bnd[i-1] > tol) {
         bnd[i-1] = sqrt(bnd[i] * bnd[i] + bnd[i-1] * bnd[i-1]);
         bnd[i] = 0.0;
       }
-  
-  
-  for (i=((step+1) - (step-1)) / 2; i <= mid - 1; i +=1 ) 
-    if (fabs(ritz[i+1] - ritz[i]) < eps34 * fabs(ritz[i])) 
+    }
+  }
+
+  for (i=((step+1) - (step-1)) / 2; i <= mid - 1; i +=1 ) {
+    if (fabs(ritz[i+1] - ritz[i]) < eps34 * fabs(ritz[i])) {
       if (bnd[i] > tol && bnd[i+1] > tol) {
         bnd[i+1] = sqrt(bnd[i] * bnd[i] + bnd[i+1] * bnd[i+1]);
         bnd[i] = 0.0;
       }
-  
+    }
+  }
+
   /* refine the error bounds */
   neig = 0;
   gapl = ritz[step] - ritz[0];
@@ -1267,7 +1278,7 @@ long error_bound(long *enough, double endl, double endr,
       neig++;
       if (!*enough) *enough = endl < ritz[i] && ritz[i] < endr;
     }
-  }   
+  }
   return neig;
 }
 
@@ -1282,32 +1293,32 @@ long error_bound(long *enough, double endl, double endr,
    -----------
 
    imtqlb() is a translation of a Fortran version of the Algol
-   procedure IMTQL1, Num. Math. 12, 377-383(1968) by Martin and 
-   Wilkinson, as modified in Num. Math. 15, 450(1970) by Dubrulle.  
-   Handbook for Auto. Comp., vol.II-Linear Algebra, 241-248(1971).  
-   See also B. T. Smith et al, Eispack Guide, Lecture Notes in 
+   procedure IMTQL1, Num. Math. 12, 377-383(1968) by Martin and
+   Wilkinson, as modified in Num. Math. 15, 450(1970) by Dubrulle.
+   Handbook for Auto. Comp., vol.II-Linear Algebra, 241-248(1971).
+   See also B. T. Smith et al, Eispack Guide, Lecture Notes in
    Computer Science, Springer-Verlag, (1976).
 
    The function finds the eigenvalues of a symmetric tridiagonal
    matrix by the implicit QL method.
 
 
-   Arguments 
+   Arguments
    ---------
 
    (input)
-   n      order of the symmetric tridiagonal matrix                   
-   d      contains the diagonal elements of the input matrix           
+   n      order of the symmetric tridiagonal matrix
+   d      contains the diagonal elements of the input matrix
    e      contains the subdiagonal elements of the input matrix in its
-          last n-1 positions.  e[0] is arbitrary	             
+          last n-1 positions.  e[0] is arbitrary
 
    (output)
    d      contains the eigenvalues in ascending order.  if an error
             exit is made, the eigenvalues are correct and ordered for
             indices 0,1,...ierr, but may not be the smallest eigenvalues.
-   e      has been destroyed.					    
+   e      has been destroyed.
    ierr   set to zero for normal return, j if the j-th eigenvalue has
-            not been determined after 30 iterations.		    
+            not been determined after 30 iterations.
 
    Functions used
    --------------
@@ -1320,106 +1331,106 @@ long error_bound(long *enough, double endl, double endr,
 void imtqlb(long n, double d[], double e[], double bnd[])
 
 {
-   long last, l, m, i, iteration;
+  long last, l, m, i, iteration;
 
-   /* various flags */
-   long exchange, convergence, underflow;	
+  /* various flags */
+  long exchange, convergence, underflow;
 
-   double b, test, g, r, s, c, p, f;
+  double b, test, g, r, s, c, p, f;
 
-   if (n == 1) return;
-   ierr = 0;
-   bnd[0] = 1.0;
-   last = n - 1;
-   for (i = 1; i < n; i++) {
-      bnd[i] = 0.0;
-      e[i-1] = e[i];
-   }
-   e[last] = 0.0;
-   for (l = 0; l < n; l++) {
-      iteration = 0;
-      while (iteration <= 30) {
-	 for (m = l; m < n; m++) {
-	    convergence = FALSE;
-	    if (m == last) break;
-	    else {
-	       test = fabs(d[m]) + fabs(d[m+1]);
-	       if (test + fabs(e[m]) == test) convergence = TRUE;
-	    }
-	    if (convergence) break;
-	 }
-	    p = d[l]; 
-	    f = bnd[l]; 
-	 if (m != l) {
-	    if (iteration == 30) {
-	       ierr = l;
-	       return;
-	    }
-	    iteration += 1;
-	    /*........ form shift ........*/
-	    g = (d[l+1] - p) / (2.0 * e[l]);
-	    r = svd_pythag(g, 1.0);
-	    g = d[m] - p + e[l] / (g + svd_fsign(r, g));
-	    s = 1.0;
-	    c = 1.0;
-	    p = 0.0;
-	    underflow = FALSE;
-	    i = m - 1;
-	    while (underflow == FALSE && i >= l) {
-	       f = s * e[i];
-	       b = c * e[i];
-	       r = svd_pythag(f, g);
-	       e[i+1] = r;
-	       if (r == 0.0) underflow = TRUE;
-	       else {
-		  s = f / r;
-		  c = g / r;
-		  g = d[i+1] - p;
-		  r = (d[i] - g) * s + 2.0 * c * b;
-		  p = s * r;
-		  d[i+1] = g + p;
-		  g = c * r - b;
-		  f = bnd[i+1];
-		  bnd[i+1] = s * bnd[i] + c * f;
-		  bnd[i] = c * bnd[i] - s * f;
-		  i--;
-	       }
-	    }       /* end while (underflow != FALSE && i >= l) */
-	    /*........ recover from underflow .........*/
-	    if (underflow) {
-	       d[i+1] -= p;
-	       e[m] = 0.0;
-	    }
-	    else {
-	       d[l] -= p;
-	       e[l] = g;
-	       e[m] = 0.0;
-	    }
-	 } 		       		   /* end if (m != l) */
-	 else {
+  if (n == 1) return;
+  ierr = 0;
+  bnd[0] = 1.0;
+  last = n - 1;
+  for (i = 1; i < n; i++) {
+    bnd[i] = 0.0;
+    e[i-1] = e[i];
+  }
+  e[last] = 0.0;
+  for (l = 0; l < n; l++) {
+    iteration = 0;
+    while (iteration <= 30) {
+      for (m = l; m < n; m++) {
+        convergence = FALSE;
+        if (m == last) break;
+        else {
+           test = fabs(d[m]) + fabs(d[m+1]);
+           if (test + fabs(e[m]) == test) convergence = TRUE;
+        }
+        if (convergence) break;
+      }
+      p = d[l];
+      f = bnd[l];
+      if (m != l) {
+        if (iteration == 30) {
+           ierr = l;
+           return;
+        }
+        iteration += 1;
+        /*........ form shift ........*/
+        g = (d[l+1] - p) / (2.0 * e[l]);
+        r = svd_pythag(g, 1.0);
+        g = d[m] - p + e[l] / (g + svd_fsign(r, g));
+        s = 1.0;
+        c = 1.0;
+        p = 0.0;
+        underflow = FALSE;
+        i = m - 1;
+        while (underflow == FALSE && i >= l) {
+          f = s * e[i];
+          b = c * e[i];
+          r = svd_pythag(f, g);
+          e[i+1] = r;
+          if (r == 0.0) underflow = TRUE;
+          else {
+            s = f / r;
+            c = g / r;
+            g = d[i+1] - p;
+            r = (d[i] - g) * s + 2.0 * c * b;
+            p = s * r;
+            d[i+1] = g + p;
+            g = c * r - b;
+            f = bnd[i+1];
+            bnd[i+1] = s * bnd[i] + c * f;
+            bnd[i] = c * bnd[i] - s * f;
+            i--;
+          }
+        }       /* end while (underflow != FALSE && i >= l) */
 
-            /* order the eigenvalues */
-	    exchange = TRUE;
-	    if (l != 0) {
-	       i = l;
-	       while (i >= 1 && exchange == TRUE) {
-	          if (p < d[i-1]) {
-		     d[i] = d[i-1];
-		     bnd[i] = bnd[i-1];
-	             i--;
-	          }
-	          else exchange = FALSE;
-	       }
-	    }
-	    if (exchange) i = 0;
-	    d[i] = p;
-	    bnd[i] = f; 
-	    iteration = 31;
-	 }
-      }			       /* end while (iteration <= 30) */
-   }				   /* end for (l=0; l<n; l++) */
-   return;
-}						  /* end main */
+        /*........ recover from underflow .........*/
+        if (underflow) {
+           d[i+1] -= p;
+           e[m] = 0.0;
+        }
+        else {
+           d[l] -= p;
+           e[l] = g;
+           e[m] = 0.0;
+        }
+      }           /* end if (m != l) */
+      else {
+      /* order the eigenvalues */
+        exchange = TRUE;
+        if (l != 0) {
+          i = l;
+          while (i >= 1 && exchange == TRUE) {
+            if (p < d[i-1]) {
+              d[i] = d[i-1];
+              bnd[i] = bnd[i-1];
+              i--;
+            }
+            else exchange = FALSE;
+          }
+        }
+        if (exchange) i = 0;
+        d[i] = p;
+        bnd[i] = f;
+        iteration = 31;
+      }
+    }       /* end while (iteration <= 30) */
+  }   /* end for (l=0; l<n; l++) */
+  return;
+}  /* end main */
 
 /***********************************************************************
  *                                                                     *
@@ -1432,10 +1443,10 @@ void imtqlb(long n, double d[], double e[], double bnd[])
    -----------
 
    imtql2() is a translation of a Fortran version of the Algol
-   procedure IMTQL2, Num. Math. 12, 377-383(1968) by Martin and 
-   Wilkinson, as modified in Num. Math. 15, 450(1970) by Dubrulle.  
-   Handbook for Auto. Comp., vol.II-Linear Algebra, 241-248(1971).  
-   See also B. T. Smith et al, Eispack Guide, Lecture Notes in 
+   procedure IMTQL2, Num. Math. 12, 377-383(1968) by Martin and
+   Wilkinson, as modified in Num. Math. 15, 450(1970) by Dubrulle.
+   Handbook for Auto. Comp., vol.II-Linear Algebra, 241-248(1971).
+   See also B. T. Smith et al, Eispack Guide, Lecture Notes in
    Computer Science, Springer-Verlag, (1976).
 
    This function finds the eigenvalues and eigenvectors of a symmetric
@@ -1445,25 +1456,25 @@ void imtqlb(long n, double d[], double e[], double bnd[])
    Arguments
    ---------
 
-   (input)                                                             
-   nm     row dimension of the symmetric tridiagonal matrix           
-   n      order of the matrix                                        
-   d      contains the diagonal elements of the input matrix        
+   (input)
+   nm     row dimension of the symmetric tridiagonal matrix
+   n      order of the matrix
+   d      contains the diagonal elements of the input matrix
    e      contains the subdiagonal elements of the input matrix in its
-            last n-1 positions.  e[0] is arbitrary	             
-   z      contains the identity matrix				    
-                                                                   
-   (output)                                                       
+            last n-1 positions.  e[0] is arbitrary
+   z      contains the identity matrix
+
+   (output)
    d      contains the eigenvalues in ascending order.  if an error
             exit is made, the eigenvalues are correct but unordered for
-            for indices 0,1,...,ierr.				   
-   e      has been destroyed.					  
-   z      contains orthonormal eigenvectors of the symmetric   
+            for indices 0,1,...,ierr.
+   e      has been destroyed.
+   z      contains orthonormal eigenvectors of the symmetric
             tridiagonal (or full) matrix.  if an error exit is made,
-            z contains the eigenvectors associated with the stored 
-          eigenvalues.					
+            z contains the eigenvectors associated with the stored
+          eigenvalues.
    ierr   set to zero for normal return, j if the j-th eigenvalue has
-            not been determined after 30 iterations.		    
+            not been determined after 30 iterations.
 
 
    Functions used
@@ -1501,12 +1512,12 @@ void imtql2(long nm, long n, double d[], double e[], double z[])
 	 if (m != l) {
 
 	    /* set error -- no convergence to an eigenvalue after
-	     * 30 iterations. */     
+	     * 30 iterations. */
 	    if (iteration == 30) {
 	       ierr = l;
 	       return;
 	    }
-	    p = d[l]; 
+	    p = d[l];
 	    iteration += 1;
 
 	    /* form shift */
@@ -1539,7 +1550,7 @@ void imtql2(long nm, long n, double d[], double e[], double z[])
 		     f = z[index+1];
 		     z[index+1] = s * z[index] + c * f;
 		     z[index] = c * z[index] - s * f;
-		  } 
+		  }
 		  i--;
 	       }
 	    }   /* end while (underflow != FALSE && i >= l) */
@@ -1578,7 +1589,7 @@ void imtql2(long nm, long n, double d[], double e[], double z[])
 	     z[j+i] = z[j+k];
 	     z[j+k] = p;
 	  }
-      }   
+      }
    }
    return;
 }		/*...... end main ............................*/
@@ -1593,41 +1604,41 @@ void imtql2(long nm, long n, double d[], double e[], double z[])
    Description
    -----------
 
-   This function is a partial translation of a Fortran-77 subroutine 
+   This function is a partial translation of a Fortran-77 subroutine
    written by W. J. Cody of Argonne National Laboratory.
    It dynamically determines the listed machine parameters of the
    floating-point arithmetic.  According to the documentation of
    the Fortran code, "the determination of the first three uses an
-   extension of an algorithm due to M. Malcolm, ACM 15 (1972), 
+   extension of an algorithm due to M. Malcolm, ACM 15 (1972),
    pp. 949-951, incorporating some, but not all, of the improvements
-   suggested by M. Gentleman and S. Marovich, CACM 17 (1974), 
+   suggested by M. Gentleman and S. Marovich, CACM 17 (1974),
    pp. 276-277."  The complete Fortran version of this translation is
-   documented in W. J. Cody, "Machar: a Subroutine to Dynamically 
+   documented in W. J. Cody, "Machar: a Subroutine to Dynamically
    Determine Determine Machine Parameters," TOMS 14, December, 1988.
 
 
-   Parameters reported 
+   Parameters reported
    -------------------
 
-   ibeta     the radix for the floating-point representation       
+   ibeta     the radix for the floating-point representation
    it        the number of base ibeta digits in the floating-point
-               significand					 
-   irnd      0 if floating-point addition chops		      
-             1 if floating-point addition rounds, but not in the 
-                 ieee style					
+               significand
+   irnd      0 if floating-point addition chops
+             1 if floating-point addition rounds, but not in the
+                 ieee style
              2 if floating-point addition rounds in the ieee style
-             3 if floating-point addition chops, and there is    
-                 partial underflow				
+             3 if floating-point addition chops, and there is
+                 partial underflow
              4 if floating-point addition rounds, but not in the
-                 ieee style, and there is partial underflow    
+                 ieee style, and there is partial underflow
              5 if floating-point addition rounds in the ieee style,
-                 and there is partial underflow                   
-   machep    the largest negative integer such that              
-                 1.0+float(ibeta)**machep .ne. 1.0, except that 
-                 machep is bounded below by  -(it+3)          
-   negeps    the largest negative integer such that          
-                 1.0-float(ibeta)**negeps .ne. 1.0, except that 
-                 negeps is bounded below by  -(it+3)	       
+                 and there is partial underflow
+   machep    the largest negative integer such that
+                 1.0+float(ibeta)**machep .ne. 1.0, except that
+                 machep is bounded below by  -(it+3)
+   negeps    the largest negative integer such that
+                 1.0-float(ibeta)**negeps .ne. 1.0, except that
+                 negeps is bounded below by  -(it+3)
 
  ***********************************************************************/
 
@@ -1636,11 +1647,11 @@ void machar(long *ibeta, long *it, long *irnd, long *machep, long *negep) {
   volatile double beta, betain, betah, a, b, ZERO, ONE, TWO, temp, tempa,
     temp1;
   long i, itemp;
-  
+
   ONE = (double) 1;
   TWO = ONE + ONE;
   ZERO = ONE - ONE;
-  
+
   a = ONE;
   temp1 = ONE;
   while (temp1 - ONE == ZERO) {
@@ -1658,7 +1669,7 @@ void machar(long *ibeta, long *it, long *irnd, long *machep, long *negep) {
   }
   *ibeta = itemp;
   beta = (double) *ibeta;
-  
+
   *it = 0;
   b = ONE;
   temp1 = ONE;
@@ -1668,14 +1679,14 @@ void machar(long *ibeta, long *it, long *irnd, long *machep, long *negep) {
     temp = b + ONE;
     temp1 = temp - b;
   }
-  *irnd = 0; 
-  betah = beta / TWO; 
+  *irnd = 0;
+  betah = beta / TWO;
   temp = a + betah;
   if (temp - a != ZERO) *irnd = 1;
   tempa = a + beta;
   temp = tempa + betah;
   if ((*irnd == 0) && (temp - tempa != ZERO)) *irnd = 2;
-  
+
   *negep = *it + 3;
   betain = ONE / beta;
   a = ONE;
@@ -1688,7 +1699,7 @@ void machar(long *ibeta, long *it, long *irnd, long *machep, long *negep) {
     temp = ONE - a;
   }
   *negep = -(*negep);
-  
+
   *machep = -(*it) - 3;
   a = b;
   temp = ONE + a;
@@ -1715,7 +1726,7 @@ void machar(long *ibeta, long *it, long *irnd, long *machep, long *negep) {
    operation flag, stores to or retrieves from memory a vector.
 
 
-   Arguments 
+   Arguments
    ---------
 
    (input)
@@ -1725,10 +1736,10 @@ void machar(long *ibeta, long *it, long *irnd, long *machep, long *negep) {
 	     isw = 2 request to retrieve j-th Lanczos vector q(j)
 	     isw = 3 request to store q(j) for j = 0 or 1
 	     isw = 4 request to retrieve q(j) for j = 0 or 1
-   s	   contains the vector to be stored for a "store" request 
+   s	   contains the vector to be stored for a "store" request
 
    (output)
-   s	   contains the vector retrieved for a "retrieve" request 
+   s	   contains the vector retrieved for a "retrieve" request
 
    Functions used
    --------------
@@ -1747,13 +1758,13 @@ void store(long n, long isw, long j, double *s) {
     }
     svd_dcopy(n, s, 1, LanStore[j + MAXLL], 1);
     break;
-  case RETRQ:	
+  case RETRQ:
     if (!LanStore[j + MAXLL])
-      svd_fatalError("svdLAS2: store (RETRQ) called on index %d (not allocated)", 
+      svd_fatalError("svdLAS2: store (RETRQ) called on index %d (not allocated)",
                      j + MAXLL);
     svd_dcopy(n, LanStore[j + MAXLL], 1, s, 1);
     break;
-  case STORP:	
+  case STORP:
     if (j >= MAXLL) {
       svd_error("svdLAS2: store (STORP) called with j >= MAXLL");
       break;
@@ -1764,13 +1775,13 @@ void store(long n, long isw, long j, double *s) {
     }
     svd_dcopy(n, s, 1, LanStore[j], 1);
     break;
-  case RETRP:	
+  case RETRP:
     if (j >= MAXLL) {
       svd_error("svdLAS2: store (RETRP) called with j >= MAXLL");
       break;
     }
     if (!LanStore[j])
-      svd_fatalError("svdLAS2: store (RETRP) called on index %d (not allocated)", 
+      svd_fatalError("svdLAS2: store (RETRP) called on index %d (not allocated)",
                      j);
     svd_dcopy(n, LanStore[j], 1, s, 1);
     break;

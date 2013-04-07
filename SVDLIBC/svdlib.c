@@ -107,7 +107,7 @@ SMat svdConvertDtoS(DMat D) {
   for (i = 0, n = 0; i < D->rows; i++)
     for (j = 0; j < D->cols; j++)
       if (D->value[i][j] != 0) n++;
-  
+
   S = svdNewSMat(D->rows, D->cols, n);
   if (!S) {
     svd_error("svdConvertDtoS: failed to allocate S");
@@ -166,7 +166,7 @@ SMat svdTransposeS(SMat S) {
 //void svdWriteDenseArray(double *a, int n, char *filename, char binary) {
 //  int i;
 //  FILE *file = svd_writeFile(filename, FALSE);
-//  if (!file) 
+//  if (!file)
 //    return svd_error("svdWriteDenseArray: failed to write %s", filename);
 //  if (binary) {
 //    svd_writeBinInt(file, n);
@@ -221,7 +221,7 @@ SMat svdTransposeS(SMat S) {
 //  /* Skip the line giving the number of lines in this file: */
 //  if (!fgets(line, 128, file));
 //  /* Read the line with useful dimensions: */
-//  if (fscanf(file, "%*s%ld%ld%ld%ld\n", 
+//  if (fscanf(file, "%*s%ld%ld%ld%ld\n",
 //             &rows, &cols, &vals, &num_mat) != 4) {
 //    svd_error("svdLoadSparseTextHBFile: bad file format on line 3");
 //    return NULL;
@@ -233,10 +233,10 @@ SMat svdTransposeS(SMat S) {
 //  }
 //  /* Skip the line giving the formats: */
 //  if (!fgets(line, 128, file));
-//  
+//
 //  S = svdNewSMat(rows, cols, vals);
 //  if (!S) return NULL;
-//  
+//
 //  /* Read column pointers. */
 //  for (i = 0; i <= S->cols; i++) {
 //    if (fscanf(file, " %ld", &x) != 1) {
@@ -246,7 +246,7 @@ SMat svdTransposeS(SMat S) {
 //    S->pointr[i] = x - 1;
 //  }
 //  S->pointr[S->cols] = S->vals;
-//  
+//
 //  /* Read row indices. */
 //  for (i = 0; i < S->vals; i++) {
 //    if (fscanf(file, " %ld", &x) != 1) {
@@ -255,7 +255,7 @@ SMat svdTransposeS(SMat S) {
 //    }
 //    S->rowind[i] = x - 1;
 //  }
-//  for (i = 0; i < S->vals; i++) 
+//  for (i = 0; i < S->vals; i++)
 //    if (fscanf(file, " %lf", S->value + i) != 1) {
 //      svd_error("svdLoadSparseTextHBFile: error reading value %d", i);
 //      return NULL;
@@ -268,7 +268,7 @@ SMat svdTransposeS(SMat S) {
 //  long col_lines = ((S->cols + 1) / 8) + (((S->cols + 1) % 8) ? 1 : 0);
 //  long row_lines = (S->vals / 8) + ((S->vals % 8) ? 1 : 0);
 //  long total_lines = col_lines + 2 * row_lines;
-//  
+//
 //  char title[32];
 //  sprintf(title, "SVDLIBC v. %s", SVDVersion);
 //  fprintf(file, "%-72s%-8s\n", title, "<key>");
@@ -300,7 +300,7 @@ SMat svdTransposeS(SMat S) {
 //
 //  S = svdNewSMat(rows, cols, vals);
 //  if (!S) return NULL;
-//  
+//
 //  for (c = 0, v = 0; c < cols; c++) {
 //    if (fscanf(file, " %ld", &n) != 1) {
 //      svd_error("svdLoadSparseTextFile: bad file format");
@@ -343,7 +343,7 @@ SMat svdTransposeS(SMat S) {
 //
 //  S = svdNewSMat(rows, cols, vals);
 //  if (!S) return NULL;
-//  
+//
 //  for (c = 0, v = 0; c < cols; c++) {
 //    if (svd_readBinInt(file, &n)) {
 //      svd_error("svdLoadSparseBinaryFile: bad file format");
@@ -405,7 +405,7 @@ SMat svdTransposeS(SMat S) {
 //  int i, j;
 //  fprintf(file, "%ld %ld\n", D->rows, D->cols);
 //  for (i = 0; i < D->rows; i++)
-//    for (j = 0; j < D->cols; j++) 
+//    for (j = 0; j < D->cols; j++)
 //      fprintf(file, "%g%c", D->value[i][j], (j == D->cols - 1) ? '\n' : ' ');
 //}
 //
@@ -440,7 +440,7 @@ SMat svdTransposeS(SMat S) {
 //  svd_writeBinInt(file, (int) D->rows);
 //  svd_writeBinInt(file, (int) D->cols);
 //  for (i = 0; i < D->rows; i++)
-//    for (j = 0; j < D->cols; j++) 
+//    for (j = 0; j < D->cols; j++)
 //      svd_writeBinFloat(file, (float) D->value[i][j]);
 //}
 //
@@ -450,7 +450,7 @@ SMat svdTransposeS(SMat S) {
 //  DMat D = NULL;
 //  FILE *file = svd_fatalReadFile(filename);
 //  switch (format) {
-//  case SVD_F_STH: 
+//  case SVD_F_STH:
 //    S = svdLoadSparseTextHBFile(file);
 //    break;
 //  case SVD_F_ST:
@@ -480,7 +480,7 @@ SMat svdTransposeS(SMat S) {
 //  DMat D = NULL;
 //  FILE *file = svd_fatalReadFile(filename);
 //  switch (format) {
-//  case SVD_F_STH: 
+//  case SVD_F_STH:
 //    S = svdLoadSparseTextHBFile(file);
 //    break;
 //  case SVD_F_ST:
@@ -513,7 +513,7 @@ SMat svdTransposeS(SMat S) {
 //    return;
 //  }
 //  switch (format) {
-//  case SVD_F_STH: 
+//  case SVD_F_STH:
 //    svdWriteSparseTextHBFile(S, file);
 //    break;
 //  case SVD_F_ST:
@@ -544,7 +544,7 @@ SMat svdTransposeS(SMat S) {
 //    return;
 //  }
 //  switch (format) {
-//  case SVD_F_STH: 
+//  case SVD_F_STH:
 //    S = svdConvertDtoS(D);
 //    svdWriteSparseTextHBFile(S, file);
 //    break;
