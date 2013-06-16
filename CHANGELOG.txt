@@ -1,6 +1,10 @@
 Changes
 =======
 
+0.2.0
+
+* fixes to the new Cython installation process
+
 0.1.9
 
 * use Cython to wrap C library (Alejandro Pulver)

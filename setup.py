@@ -32,7 +32,7 @@ sourcefiles = ['sparsesvd.pyx', 'SVDLIBC/las2.c', 'SVDLIBC/svdutil.c', 'SVDLIBC/
 
 setup(
     name = 'sparsesvd',
-    version = '0.1.9',
+    version = '0.2.0',
     description = 'Python module that wraps SVDLIBC, a library for sparse Singular Value Decomposition.',
     long_description = open(os.path.join(os.path.dirname(__file__), 'README.rst')).read(),
     license = 'BSD',
