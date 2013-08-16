@@ -1,6 +1,10 @@
 Changes
 =======
 
+0.2.1
+
+* better numpy/scipy dependency resolution (Jason Yan)
+
 0.2.0
 
 * fixes to the new Cython installation process
