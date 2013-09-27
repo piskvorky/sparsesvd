@@ -3,7 +3,7 @@
 #
 # Copyright (C) 2013 Radim Rehurek <radimrehurek@seznam.cz>
 
-# TODO: heck whether we should follow
+# TODO: check whether we should follow
 # http://cffi.readthedocs.org/en/release-0.7/#distributing-modules-using-cffi
 import os
 import sys
