@@ -58,5 +58,6 @@ setup(
         'scipy >= 0.6.0',
         'cffi',
     ],
+    py_modules=['sparsesvd'],
     ext_modules=[Extension('svdlib', sources=sourcefiles)]
 )
