@@ -1,0 +1,13 @@
+build/*
+bin/*
+lib/*
+include/*
+*__pycache__
+
+*.egg-info/*
+
+.Python
+
+*.pyc
+*.pyp
+*.so
