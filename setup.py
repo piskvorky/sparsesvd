@@ -17,7 +17,7 @@ sourcefiles = ['SVDLIBC/las2.c', 'SVDLIBC/svdutil.c', 'SVDLIBC/svdlib.c']
 
 
 setup(
-    name='sparsesvd',
+    name='sparsesvd-cffi',
     version='0.2.2-dev',
     description=(
         'Python module that wraps SVDLIBC, '
