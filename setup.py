@@ -18,7 +18,7 @@ sourcefiles = ['SVDLIBC/las2.c', 'SVDLIBC/svdutil.c', 'SVDLIBC/svdlib.c']
 
 setup(
     name='sparsesvd-cffi',
-    version='0.2.2-dev',
+    version='0.2.3-dev',
     description=(
         'Python module that wraps SVDLIBC, '
         'a library for sparse Singular Value Decomposition.'

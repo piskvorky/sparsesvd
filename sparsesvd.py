@@ -1,4 +1,5 @@
 import os.path
+import sysconfig
 
 from scipy.sparse import isspmatrix_csc
 import numpy as np
@@ -52,7 +53,7 @@ extern SVDRec svdLAS2A(SMat A, long dimensions);
 )
 
 here = os.path.dirname(__file__)
-lib = ffi.dlopen(os.path.join(here, "svdlib.so"))
+lib = ffi.dlopen(os.path.join(here, "svdlib{}".format(sysconfig.get_config_var('SO'))))
 
 
 def sparsesvd(matrix, k):
