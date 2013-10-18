@@ -53,7 +53,7 @@ extern SVDRec svdLAS2A(SMat A, long dimensions);
 )
 
 here = os.path.dirname(__file__)
-lib = ffi.dlopen(os.path.join(here, "svdlib{}".format(sysconfig.get_config_var('SO'))))
+lib = ffi.dlopen(os.path.join(here, "svdlib{}".format(sysconfig.get_config_var('EXT_SUFFIX'))))
 
 
 def sparsesvd(matrix, k):
